@@ -97,23 +97,22 @@ This step allows the user to sequentially draw and store one ROI per image to an
 
 5. When all images are analyzed, the log window displays an "Analysis completed!" message and the YourImagesFolder_DetectionParameters.txt file is appended with the date and time of the end of the analysis.   
 
-	    Box 1: Image processing description:   
-	    For each channel of interest:
-	    - Contrast enhancement: normalize the image (contrast stretching) with 0.35% pixels saturated, each slice is processed
-	    - Select ROI and crop around it
-	    - Convert the image to 8-bit
-	    - Filter channel
-		- Apply 3D Median (Plugins > 3D Suite > Filters > 3D Fast Filters)
-		- Apply 3D Gaussian blur (Process > Filters > Gaussian Blur 3D)
-		- Apply background substraction (Process > Substract Background, smoothing disabled) on the whole stack
-	    - Segment channel
-		- Apply 3D Simple Segmentation (Plugins > 3D Suite > Segmentation > 3D Simple Segmentation)
-		- Transform segmentation image into a binary mask
-		- Appy watershed (optional)   
-	    Colocalization analysis on the two segmented channels:
-	    - [JACoP plugin from Bolte & Cordelières](https://imagej.net/plugins/jacop) (Plugins > JACoP), objects based methods, 
-	    geometrical centers, work on center-particle coincidence		
-     
+| Box 1: Image processing description: | 
+| ------------- |
+| For each channel of interest: |
+|  - Contrast enhancement: normalize the image (contrast stretching) with 0.35% pixels saturated, each slice is processed |
+|  - Select ROI and crop around it |
+|  - Convert the image to 8-bit |
+|  - Filter channel: |
+|  <ul><li> Apply 3D Median (Plugins > 3D Suite > Filters > 3D Fast Filters)</li><li> Apply 3D Gaussian blur (Process > Filters > Gaussian Blur 3D)</li><li> Apply background substraction (Process > Substract Background, smoothing disabled) on the whole stack </li></ul> |
+|  - Segment channel: |
+|      - Apply 3D Simple Segmentation (Plugins > 3D Suite > Segmentation > 3D Simple Segmentation) |
+|      - Transform segmentation image into a binary mask |
+|      - Appy watershed (optional) |
+| Colocalization analysis on the two segmented channels: |
+|  - [JACoP plugin from Bolte & Cordelières](https://imagej.net/plugins/jacop) (Plugins > JACoP), objects based methods, geometrical centers, work on center-particle coincidence |
+
+
 ![Step3_JACoP](img/Step3_JACoP.PNG) 
 
 ### Macro 4: Verification and correction of images
@@ -132,18 +131,10 @@ This final step allows the reviewing of your analysis. On top of making sure you
 6. The script will warn you if you still have empty slices remaining, and then will recalculate a corrected volume and recount the objects and colocalizations in this modified stack and/or ROI, appending the original results file accordingly.
 7. Repeat with the same image until satisfied or proceed to the next one until you have reviewed all of your batch!   
 
-
-		Box 2: Estimated volume correction explanation:
-		The analyzed volume is initially estimated in a ROI-shaped cookie-cutter fashion, i.e. based on the area of the ROI multiplied
-		by the number of slices, multiplied by the length of the z step.
-		In case of unevenly mounted or shaped sample (see illustration), this estimation is not very accurate.    
-		On the drawing, you can see for example that the area occupied by the sample in the blue rectangle (representing a z-slice) is 
-		much smaller than in the orange one, and you can imagine that both do not exactly fit the original ROI drawn on the MIP of the
-		sample. In order to get a better estimation of the analyzed volume, we use a convex hull algorithm that is going to wrap around
-		the detected cells for every z-slice of the sample (purple line on the illustration). Our estimated volume then becomes the sum
-		of these areas that encompass detected cells, multiplied by the length of the z-step. Of course, this is only more suitable
-		than the cookie-cutter estimation provided that you do not have "empty" slices in the middle of your sample that are devoid of 
-		any cells. Ideally, this should only be used if you have a rather ubiquitousmarker that is evenly spread in your sample, to 
-		avoid "over-correcting" the estimated volume.				      
  
+| Box 2: Estimated volume correction explanation:  | 
+| ------------- |
+| The analyzed volume is initially estimated in a ROI-shaped cookie-cutter fashion, i.e. based on the area of the ROI multiplied by the number of slices, multiplied by the length of the z step. In case of unevenly mounted or shaped sample (see illustration), this estimation is not very accurate. On the drawing, you can see for example that the area occupied by the sample in the blue rectangle (representing a z-slice) is much smaller than in the orange one, and you can imagine that both do not exactly fit the original ROI drawn on the MIP of the sample. In order to get a better estimation of the analyzed volume, we use a convex hull algorithm that is going to wrap around the detected cells for every z-slice of the sample (purple line on the illustration). Our estimated volume then becomes the sum of these areas that encompass detected cells, multiplied by the length of the z-step. Of course, this is only more suitable than the cookie-cutter estimation provided that you do not have "empty" slices in the middle of your sample that are devoid of  any cells. Ideally, this should only be used if you have a rather ubiquitousmarker that is evenly spread in your sample, to  avoid "over-correcting" the estimated volume.| 
+
+
 ![Step4_ConvexHull](img/Step4_ConvexHull.jpg)     
