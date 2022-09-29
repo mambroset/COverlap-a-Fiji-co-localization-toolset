@@ -106,9 +106,7 @@ This step allows the user to sequentially draw and store one ROI per image to an
 |  - Filter channel: |
 |  <ul><li> Apply 3D Median (Plugins > 3D Suite > Filters > 3D Fast Filters)</li><li> Apply 3D Gaussian blur (Process > Filters > Gaussian Blur 3D)</li><li> Apply background substraction (Process > Substract Background, smoothing disabled) on the whole stack </li></ul> |
 |  - Segment channel: |
-|      - Apply 3D Simple Segmentation (Plugins > 3D Suite > Segmentation > 3D Simple Segmentation) |
-|      - Transform segmentation image into a binary mask |
-|      - Appy watershed (optional) |
+|  <ul><li> Apply 3D Simple Segmentation (Plugins > 3D Suite > Segmentation > 3D Simple Segmentation)</li><li> Transform segmentation image into a binary mask <li> Apply watershed (optional)</li></ul> |
 | Colocalization analysis on the two segmented channels: |
 |  - [JACoP plugin from Bolte & Cordelières](https://imagej.net/plugins/jacop) (Plugins > JACoP), objects based methods, geometrical centers, work on center-particle coincidence |
 
