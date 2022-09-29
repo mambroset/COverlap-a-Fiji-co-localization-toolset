@@ -70,7 +70,7 @@ This step allows to test for filtering, background substraction and thresholding
 3. Double click on the desired path in the maxFilesList table to open the MIP of the image you wish to test your parameters on. Click on OK.
 4. In the GUI, fill in the various parameters. Checking the Save Parameters box will save those parameters and pre-fill the GUI the next time it pops up. The first time around, the Ask for ROIs box is checked: you will have to draw a small ROI to do your testing on. 	
 
-![Step2_GUI2](img/Step2_GUI2.png)	
+![Step2_GUI2](img/Step2_GUI2.PNG)	
 
 5. Draw a (small) ROI, add it to the manager by pressing "T" and click OK: the test begins.
 6. When the test is done, you can review the vizualization images for each channel and toggle the outline (channel 2) to see if your parameter selection allows the segmentation of your markers of interest. The original channels (used for the vizualization) are also displayed, as well as the processed (filter and background substracted) images (called 3D_Median_target).	
@@ -85,7 +85,7 @@ This step allows the user to sequentially draw and store one ROI per image to an
 1. Indicate your version of the Images and Results folders, check the targets/channels and regions parameters.
 2. Check your segmentation parameters. If you have saved some before, those will be the ones displayed. You can save new ones (bear in mind that the previous ones will be replaced if you do so). When you start the analysis, all of the detection parameters used for the batch will be saved in your Results folder, as a YourImagesFolder_DetectionParameters.txt file.	
 
-![Step3_DetectionParameters](img/Step3_DetectionParameters.png)	
+![Step3_DetectionParameters](img/Step3_DetectionParameters.png)
 
 3. a. Check the Ask for ROIs box if you have not drawn them previously, and click OK. Draw and add to the ROI manager all ROIs (one per image), and let the computer work (it could take several days depending on the number and size of your images!).
 
