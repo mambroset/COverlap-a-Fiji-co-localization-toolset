@@ -14,11 +14,12 @@ This 4 steps FIJI/ImageJ toolset is intended for the colocalization of two nucle
 -
 
 ## Installation
-1. Download the toolset from INSERT LINK HERE
-2. Locate your ImageJ or FIJI folder
-3. Put the file in the Fiji.app > macros > toolsets folder
-4. Open ImageJ/FIJI, click on the red double arrow (>>) right of the tools and select Melodie's colocalization toolset
-5. The 1, 2, 3 and 4 icons appear, you're all set!
+1. If not already done, download and install FIJI/ImageJ from https://imagej.net/software/fiji/downloads , following instructions
+2. Download the toolset from INSERT LINK HERE
+3. Locate your ImageJ or FIJI folder
+4. Put the file in the Fiji.app > macros > toolsets folder
+5. Open ImageJ/FIJI, click on the red double arrow (>>) right of the tools and select Melodie's colocalization toolset
+6. The 1, 2, 3 and 4 icons appear, you're all set!
 			
 ![Toolset-Icons](img/Icons.PNG)
 
@@ -43,11 +44,12 @@ Prerequisites:
 		 Image Files:	 Image Files:	 Image Files:
 		- Scan1.nd	- Scan1.nd	- Scan1.nd
 		- Channel1.tif  - Channel1.tif  - Channel1.tif
-		- Channel2.tif  - [...]		- [...]
-		- Channel3.tif
+		- Channel2.tif  - Channel2.tif	- Channel2.tif
+		- Channel3.tif	- Channel3.tif	- Channel3.tif
 
 4. Plugins and update sites:
-    - The plugins ImageScience and 3D ImageJ Suite need to be installed for the toolset to work. If they are not already, you need to run Help > Update, click on Manage update sites and check the boxes for the Image Science and 3D ImageJ Suite sites. Apply changes and restart ImageJ. 
+    - The plugins ImageScience and 3D ImageJ Suite need to be installed for the toolset to work. If they are not already, you need to run Help > Update, click on Manage update sites and check the boxes for the Image Science and 3D ImageJ Suite sites. Apply changes and restart ImageJ.
+    - The plugin JaCOP also needs to be installed. You can download it here: https://imagej.net/plugins/jacop . Simply download JACoP_.jar to the Plugins folder of ImageJ and restart ImageJ.
 
 ## Description of each step:
 
