@@ -48,7 +48,7 @@ Prerequisites:
 
 4. Plugins and update sites:
     - The plugins ImageScience and 3D ImageJ Suite need to be installed for the toolset to work. If they are not already, you need to run Help > Update, click on Manage update sites and check the boxes for the Image Science and 3D ImageJ Suite sites. Apply changes and restart ImageJ.
-    - The plugin JaCOP also needs to be installed. You can download it here: https://imagej.net/plugins/jacop . Simply download JACoP_.jar to the Plugins folder of ImageJ and restart ImageJ.
+    - The plugin JACoP also needs to be installed. You can download it here: https://imagej.net/plugins/jacop . Simply download JACoP_.jar to the Plugins folder of ImageJ and restart ImageJ.
 
 ## Description of each step:
 
