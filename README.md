@@ -27,7 +27,6 @@ This 4 steps FIJI/ImageJ toolset is intended for the colocalization of two nucle
 Prerequisites:
 1. Type of files: 
     - The toolset currently works with .nd files that are stored in a folder with the reconstructed channels, and that are all named the same (e.g. "Scan1.nd").
-	DOES THE MACRO WORK WITH ANOTHER TYPE OF FILE, FOR EXAMPLE MULTICHANNEL .TIF FILE?
 2. Directory structure and folder naming:
     - You should create two global working directories: one for Images, and one for Results. These two Images and Results folders should be separate. If you have several batches to analyze, you can include them in a higher level directory (such as a Batch 1 folder).
     - The Results directory will initially be empty.
