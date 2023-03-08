@@ -1,5 +1,5 @@
-# Melodie's colocalization toolset
-This 4 steps FIJI/ImageJ toolset is intended for the colocalization of two nuclear markers, on multichannel tiled Z-stack images acquired with a Spinning Disk confocal microscope.
+# COverlap: a FIJI colocalization toolset
+This 4 steps FIJI/ImageJ toolset is intended for the 3D colocalization of two nuclear markers. It has been tested on multichannel tiled Z-stack images acquired with a Spinning Disk confocal microscope.
 
 ## Brief description of the 4 steps
 
@@ -9,9 +9,7 @@ This 4 steps FIJI/ImageJ toolset is intended for the colocalization of two nucle
 4. A reviewing step, where results and segmentations/colocalization masks can be verified, and corrections applied if needed (ROI adjustment, z-stack reslicing, volume estimation correction), with appropriate documentation of any such correction.
 
 ## List of advantages:
-- Comes with pink icons
--
--
+- Separation of manual and automatized steps in order to save time 
 
 ## Installation
 1. If not already done, download and install FIJI/ImageJ from https://imagej.net/software/fiji/downloads , following instructions
