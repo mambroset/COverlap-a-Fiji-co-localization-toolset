@@ -8,10 +8,6 @@ This 4 steps FIJI/ImageJ toolset is intended for the 3D colocalization of two nu
 3. The manual drawing of ROIs for all images in the batch followed by the automatic segmentation and 3D colocalization of the 2 nuclear markers.
 4. A reviewing step, where results and segmentations/colocalization masks can be verified, and corrections applied if needed (ROI adjustment, z-stack reslicing, volume estimation correction), with appropriate documentation of any such correction.
 
-## Advantages:
-
-- Separation of manual and automatized steps
-
 ## Installation
 1. If not already done, download and install FIJI/ImageJ from https://imagej.net/software/fiji/downloads , following instructions
 2. Download the toolset from INSERT LINK HERE
