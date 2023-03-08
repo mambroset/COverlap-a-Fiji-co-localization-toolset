@@ -32,11 +32,11 @@ Prerequisites:
     - The names of your sample and of the region analyzed should be included in the name of each subfolder (example for animal V1456 if region is ACC: V1456ACCc1).
 3.  Example of suitable directory structure:  
 
-					     	Batch 1
+					     	[Batch 1]
 					/     			\
-		 		    Images			Results
+		 		   [Images]		      [Results]
 			    /  	      |		\
-		Animal1Region1 Animal1Region2	Animal2Region1
+	       [Sample1Region1][Sample1Region2][Sample2Region1]
 		      |             |              |
 		 Image Files:	 Image Files:	 Image Files:
 		- Scan1.nd	- Scan1.nd	- Scan1.nd
