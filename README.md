@@ -76,6 +76,7 @@ This step allows to test for filtering, background subtraction and thresholding 
 4. In the GUI, fill in the various parameters.
 	- The minimum Overlap for Colocalization % will be ignored in this step and used during Macro 3. It corresponds to a minimum percentage (in pixels) of an object that needs to be overlapping in the other object for the pair to be considered as colocalized.
 	- Setting a filtering parameter (Median, Gaussian or Background Subtraction Radius) to "0" will have the macro skip this particular filtering step.
+	- To be effective, the watershed radius should be around the same size as the radius of your objects.
 	- For the tests to run faster, we advise to not select the "Exclude objects on edges" option during this step (it is mostly useful during Step 3 to avoid spurrious colocalization events for objects that are only partially included in the ROI). 
 	- The first time around, the Ask for ROIs box is checked: you will have to draw a small ROI to perform your testing on. 
 	- Checking the Save Parameters box will save those parameters and pre-fill the GUI the next time it pops up. Click OK when you have filled all parameters.
