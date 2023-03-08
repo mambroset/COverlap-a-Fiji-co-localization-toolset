@@ -32,17 +32,17 @@ Prerequisites:
     - The names of your sample and of the region analyzed should be included in the name of each subfolder (example for animal V1456 if region is ACC: V1456ACCc1).
 3.  Example of suitable directory structure:  
 
-					     	[Batch 1]
-					/     			\
-		 		   [Images]		      [Results]
-			    /  	      |		\
-	       [Sample1Region1][Sample1Region2][Sample2Region1]
-		      |             |              |
-		 Image Files:	 Image Files:	 Image Files:
-		- Scan1.nd	- Scan1.nd	- Scan1.nd
-		- Channel1.tif  - Channel1.tif  - Channel1.tif
-		- Channel2.tif  - Channel2.tif	- Channel2.tif
-		- Channel3.tif	- Channel3.tif	- Channel3.tif
+					     			[Batch 1]
+						/     					\
+		 			    [Images]		   			[Results]
+				/ 	   	|		\
+		[Sample1Region1]	[Sample1Region2]	[Sample2Region1]
+		      |				|        	      |
+		 Image Files:		 Image Files:	 	Image Files:
+		- Scan1.nd		- Scan1.nd		- Scan1.nd
+		- Channel1.tif  	- Channel1.tif  	- Channel1.tif
+		- Channel2.tif  	- Channel2.tif		- Channel2.tif
+		- Channel3.tif		- Channel3.tif		- Channel3.tif
 
 4. Plugins and update sites:
     - The plugins ImageScience and 3D ImageJ Suite need to be installed for the toolset to work. If they are not already, you need to run Help > Update, click on Manage update sites and check the boxes for the Image Science and 3D ImageJ Suite sites. Apply changes and restart ImageJ.
