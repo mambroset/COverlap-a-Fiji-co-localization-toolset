@@ -8,8 +8,10 @@ This 4 steps FIJI/ImageJ toolset is intended for the 3D colocalization of two nu
 3. The manual drawing of ROIs for all images in the batch followed by the automatic segmentation and 3D colocalization of the 2 nuclear markers.
 4. A reviewing step, where results and segmentations/colocalization masks can be verified, and corrections applied if needed (ROI adjustment, z-stack reslicing, volume estimation correction), with appropriate documentation of any such correction.
 
-## List of advantages:
-- Separation of manual and automatized steps in order to save time 
+## Advantages:
+
+- Separation of manual and automatized steps
+
 
 ## Installation
 1. If not already done, download and install FIJI/ImageJ from https://imagej.net/software/fiji/downloads , following instructions
@@ -24,12 +26,12 @@ This 4 steps FIJI/ImageJ toolset is intended for the 3D colocalization of two nu
 ## How to use it?
 Prerequisites:
 1. Type of files: 
-    - The toolset currently works with .nd files that are stored in a folder with the reconstructed channels, and that are all named the same (e.g. "Scan1.nd").
+    - The toolset currently works with .nd files that are stored in a folder with the reconstructed channels, and that are all named the same (e.g. "Scan1.nd"). It should however work with other formats for z-stack images, such as .tif files.
 2. Directory structure and folder naming:
     - You should create two global working directories: one for Images, and one for Results. These two Images and Results folders should be separate. If you have several batches to analyze, you can include them in a higher level directory (such as a Batch 1 folder).
     - The Results directory will initially be empty.
-    - The Images directory should contain your images, where one image is stored in one subfolder. 
-    - The names of your sample and of the region analyzed should be included in the name of each subfolder (example for animal V1456 if region is ACC: V1456ACCc1).
+    - The Images directory should contain your images, where each image is stored in one individual subfolder. 
+    - The names of your sample and of the region analyzed should be included in the name of each subfolder (example for sample V1456 if region is ACC: V1456ACCc1).
 3.  Example of suitable directory structure:  
 
 					     			[Batch 1]
@@ -45,8 +47,11 @@ Prerequisites:
 		- Channel3.tif		- Channel3.tif		- Channel3.tif
 
 4. Plugins and update sites:
-    - The plugins ImageScience and 3D ImageJ Suite need to be installed for the toolset to work. If they are not already, you need to run Help > Update, click on Manage update sites and check the boxes for the Image Science and 3D ImageJ Suite sites. Apply changes and restart ImageJ.
-    - The plugin JACoP also needs to be installed. You can download it here: https://imagej.net/plugins/jacop . Simply download JACoP_.jar to the Plugins folder of ImageJ and restart ImageJ.
+   - The plugins ImageScience, 3D ImageJ Suite and MorpholibJ need to be installed for the toolset to work. If they are not already, you need to run Help > Update, click on Manage update sites and check the boxes for 
+    	 - the Image Science
+	 - 3D ImageJ Suite 
+	 - IJPB-plugins sites. 
+   - Apply changes and restart ImageJ.
 
 ## Description of each step:
 
