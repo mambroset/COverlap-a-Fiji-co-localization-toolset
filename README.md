@@ -19,8 +19,10 @@ This 4 steps FIJI/ImageJ toolset is intended for the 3D colocalization of two nu
 4. Put the file in the Fiji.app > macros > toolsets folder
 5. Open ImageJ/FIJI, click on the red double arrow (>>) right of the tools and select the COverlap toolset
 6. The 1, 2, 3 and 4 icons appear, you're all set!
-			
-![Toolset-Icons](img/Icons.PNG)
+
+<p align="center">			
+	<img src="img/Icons.PNG" width=75%>
+</p>
 
 ## How to use it?
 Prerequisites:
@@ -59,7 +61,9 @@ This preliminary step creates MIPs of your images that will be reused later, bot
 1. Click on the icon 1 and indicate the parent folder that contains all of your images (e.g. Images in our example tree).
 2. In the GUI, indicate the name and extension of the images, and which color LUT you want to apply on the different channels of your image (select "None" if you do not have a third and/or fourth channel or if you do not want the channel to appear in the projection).	
 
-![Step1_GUI](img/Step1_GUI.PNG)	
+<p align="center">
+	<img src="img/Step1_GUI.PNG" width=80%>
+</p>
 
 3. When the message "A MIP has been successfully created for all of the images." appears in the Log window, MIPs have been created and stored in each individual image folder. You can open them to see if you are satisfied. You can proceed to step 2 if you are satisfied, or repeat the process with different parameters if you are not.
 
@@ -68,7 +72,9 @@ This step allows to test for filtering, background subtraction and thresholding 
 1. Indicate your equivalent of the Images folder, and that of your Results folder.
 2. In the GUI, fill in the name of your targets (here the endothelial transcription factor ERG and the proliferation marker EdU), the name of your regions (here ACC for anterior cingulate cortex and CP for parietal cortex), and the name/common substring and extension of your images. If you check the Save parameters box, any GUI that pops up later will be pre-filled with these informations, thanks to a Test_Parameters.txt file that will be saved in your Results folder.	
 
-![Step2_GUI1](img/Step2_GUI1.PNG)	
+<p align="center">
+	<img src="img/Step2_GUI1.PNG" width = 60%>	
+</p>
 
 3. Double click on the desired path in the maxFilesList table to open the MIP of the image you wish to test your parameters on. Click on OK.
 4. In the GUI, fill in the various parameters.
@@ -78,12 +84,16 @@ This step allows to test for filtering, background subtraction and thresholding 
 	- The first time around, the Ask for ROIs box is checked: you will have to draw a small ROI to perform your testing on. 
 	- Checking the Save Parameters box will save those parameters and pre-fill the GUI the next time it pops up. Click OK when you have filled all parameters.
 
-![Step2_GUI2](img/Step2_GUI2.PNG)	
+<p align="center">
+	<img src="img/Step2_GUI2.PNG" width = 50%>	
+</p>
 
 5. Draw a (small) ROI, add it to the manager by pressing "T" and click OK: the test begins.
 6. When the test is done, you can review the vizualization images for each channel and toggle the outline (channel 2) to see if your parameter selection allows the proper segmentation of your markers of interest. The original channels (used for the vizualization) are also displayed, as well as the processed (filtered and background subtracted) images.
 
-![Step2_Results](img/Step2_Results.PNG)		
+<p align="center">
+	<img src="img/Step2_Results.PNG" width = 100%>			
+</p>
 
 7. If you wish to test different parameters on the same sample and ROI, click on OK and input new parameters, while leaving Ask for ROIs unckecked. Else, if you wish to analyze a different image or a different ROI, close all images (Maj + W) before clicking on OK, and double-click in the maxFilesList on the image you wish to work on.	
 8. Repeat until satisfied, and do not forget to save your parameters if you want to save time in the next step!	
@@ -93,7 +103,9 @@ This step allows the user to sequentially draw and store one ROI per image to an
 1. Indicate your version of the Images and Results folders, check the targets, channels and regions parameters.
 2. Check your segmentation parameters. If you have saved some before, those will be the ones displayed. You can save new ones (bear in mind that the previous ones will be replaced if you do so). When you start the analysis, all of the detection parameters used for the batch will be saved in your Results folder, as a YourImagesFolder_DetectionParameters.txt file. 
 
-![Step3_DetectionParameters](img/Step3_DetectionParameters.PNG)
+<p align="center">
+	<img src="img/Step3_DetectionParameters.PNG" width = 40%>	
+</p>
 
 3. a. Check the Ask for ROIs box if you have not drawn them previously, and click OK. Draw and add a single ROI per image to the ROI manager. Note that this step can take time depending on the complexity and/or number of ROIs to draw, so plan accordingly. The macro will open each MIP in turn for you to draw a ROI, and if no ROI is drawn the corresponding image will be skipped during the analysis. Once allr ROIs are drawn, let the computer work (it could take several days depending on the number and size of your images!).
 
@@ -101,7 +113,9 @@ This step allows the user to sequentially draw and store one ROI per image to an
 
 4. The progress will be displayed in the Log window (image being processed/total number of images) and the Results table will be appended each time another image is processed. Shall you interrupt the analysis before its completion, any results for images that have been successfully analyzed will not be lost. 
 
-![Step3_Results](img/Step3_Results.PNG)	
+<p align="center">
+	<img src="img/Step3_Results.PNG" width = 120%>	
+</p>
 
 5. Each time one image is processed, files are added to your Results folder:
 	- the appended Results table is saved as a YourImagesFolder_Results.xls file,
@@ -129,28 +143,38 @@ This step allows the user to sequentially draw and store one ROI per image to an
 This final step allows the reviewing of your analysis. On top of making sure your parameters selection allowed the proper detection of your features of interest, you can perform corrections such as ROI reshaping (to exlude previously missed bubbles for example), or reslicing of the z-stack (to exlclude out-of-focus stack extremities for example). Another interesting feature is the volume recalculation (see Box 2 with illustration).
 1. Indicate your version of the Results folder and check the targets, channels and colocalization overlap % parameters.
 
-![Step4_GUI](img/Step4_GUI.PNG)
+<p align="center">
+	<img src="img/Step4_GUI.PNG" width = 40%>
+</p>
 
 2. Double click on a _Composite.tif image in the list, then click OK. You can also open the associated .jpg image for visualization purposes, but do not forget to close it before clicking OK.
 
-![Step4_VerificationImages](img/Step4_VerificationImages.PNG)	
+<p align="center">
+	<img src="img/Step4_VerificationImages.PNG" width = 75%>	
+</p>
 
 3. Make sure that you do not have anything funny looking in your ROI, and reshape it if needed (for example exclude a bubble that you missed earlier and has created a lot of segmented noise). Also check the z-stack: if the top or the bottom of the stack is devoid of any segmentation, it could mean that it was out of focus when acquired: you should exclude these empty slices in the next step, so note which ones they are. If you wish to save and process this adjusted ROI, click Yes when prompted (if you have not modified it the prompt will not appear). 
 4. If you want to remove the undesired empty slices at the extremities of the stack, and/or recalculate the analyzed volume and the results for the modified ROI or stack, click Yes in the next dialog. 
 5. To exclude empty slices at the extremities, exclude them with the substack maker (for example if slices 27 to 33 are empty, reslice from 1 to 26).	
 
-![Step4_Subshyperstack](img/Step4_Subshyperstack.PNG)	
+<p align="center">
+	<img src="img/Step4_Subshyperstack.PNG" width = 40%>
+</p>
 
 6. The script will warn you if you still have empty slices remaining, and then will recalculate a corrected volume and recount the objects and colocalizations in this modified stack and/or ROI, appending the original results file accordingly. The 3D ROIs of colocalizing objects will also be updated.
 7. Repeat with the same image until satisfied or proceed to the next one until you have reviewed all of your batch!   
 
 8. Additionally, you can review the 3D ROIs of colocalizing objects, and even perform measurements on them shall your analysis require it. For this, you need to load them in the 3D Manager (Plugins > 3D Suite > 3D Manager, click on Load and select the desired Coloc3DROIs.zip file). You can visualize them on the original image by opening it, opening the ROI file in the regular ROI Manager, cropping the image around this ROI, and pressing Live Roi: ON in the 3D manager. 
 
-![Step4_3DROIs](img/Step4_3DROIs.PNG)	
- 
+<p align="center">
+	<img src="img/Step4_3DROIs.png" width = 100%>
+</p>
+
 | Box 2: Estimated volume correction explanation:  | 
 | ------------- |
 | The analyzed volume is initially estimated in a ROI-shaped cookie-cutter fashion, i.e. based on the area of the ROI multiplied by the number of slices, multiplied by the length of the z step. In case of unevenly mounted or shaped sample (see illustration), this estimation is not very accurate. On the drawing, you can see for example that the area occupied by the sample in the blue rectangle (representing a z-slice) is much smaller than in the orange one, and you can imagine that both do not exactly fit the original ROI drawn on the MIP of the sample. In order to get a better estimation of the analyzed volume, we use a convex hull algorithm that is going to wrap around the detected cells for every z-slice of the sample (purple line on the illustration). Our estimated volume then becomes the sum of these areas that encompass detected cells, multiplied by the length of the z-step. Of course, this is only more suitable than the cookie-cutter estimation provided that you do not have "empty" slices in the middle of your sample that are devoid of  any cells. Ideally, this should only be used if you have a rather ubiquitous marker that is evenly spread in your sample, to avoid "over-correcting" the estimated volume.| 
 
 
-![Step4_ConvexHull](img/Step4_ConvexHull.jpg)
+<p align="center">
+	<img src="img/Step4_ConvexHull.jpg" width = 75%>
+</p>
