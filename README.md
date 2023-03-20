@@ -10,9 +10,9 @@ This 4 steps FIJI/ImageJ toolset is intended for the 3D colocalization of two nu
 
 ## Installation
 1. If not already done, download and install FIJI/ImageJ from https://imagej.net/software/fiji/downloads , following instructions
-2. Download the toolset from INSERT LINK HERE
+2. Download the [.ijm toolset file](/COverlap_Toolset.ijm)
 3. Locate your ImageJ or FIJI folder
-4. Put the file in the Fiji.app > macros > toolsets folder
+4. Put the .ijm toolset file in the Fiji.app > macros > toolsets folder
 5. Open ImageJ/FIJI, click on the red double arrow (>>) right of the tools and select the COverlap toolset
 6. The 1, 2, 3 and 4 icons appear, you're all set!
 
@@ -23,13 +23,13 @@ This 4 steps FIJI/ImageJ toolset is intended for the 3D colocalization of two nu
 ## How to use it?
 Prerequisites:
 1. Type of files: 
-    - The toolset currently works with .nd files that are stored in a folder with the reconstructed channels, and that are all named the same (e.g. "Scan1.nd"). It should however work with other formats for z-stack images, such as .tif files, that have a common substring in their name and up to 4 channels.
+    - The toolset works on .nd files that are stored in a folder with the reconstructed channels, and that are all named the same (e.g. "Scan1.nd"). It should however work with other formats for z-stack images, such as .tif files that have a common substring in their name and up to 4 channels.
 2. Directory structure and folder naming:
     - You should create two global working directories: one for Images, and one for Results. These two Images and Results folders should be separate. If you have several batches to analyze, you can include them in a higher level directory (such as a Batch 1 folder).
     - The Results directory will initially be empty.
-    - The Images directory should contain your images, where each image is stored in one individual subfolder. 
-    - The names of your sample and of the region analyzed should be included in the name of each subfolder (example for sample V1456 if region is ACC: V1456ACCc1).
-3.  Example of suitable directory structure:  
+    - The Images directory should contain your images, where each image can be stored in one individual subfolder (such as needed for .nd files). 
+    - The names of your sample and of the region analyzed should be included in the name of each image or subfolder (example for sample V1456 if region is ACC: V1456ACCc1).
+3.  Example of suitable directory structures:  
 
 					     			[Batch 1]
 						/     					\
@@ -42,6 +42,14 @@ Prerequisites:
 		- Channel1.tif  	- Channel1.tif  	- Channel1.tif
 		- Channel2.tif  	- Channel2.tif		- Channel2.tif
 		- Channel3.tif		- Channel3.tif		- Channel3.tif
+		
+		
+		
+							     	[Batch A]
+						/     					\
+		 			    [Images]		   			[Results]
+				/ 	   	|		\
+		Sample1Region1.tif	Sample1Region2.tif	Sample2Region1.tif
 
 4. Plugins and update sites:
    - The plugins ImageScience, 3D ImageJ Suite and MorpholibJ need to be installed for the toolset to work. If they are not already, you need to run Help > Update, click on Manage update sites and check the boxes for 
