@@ -48,8 +48,10 @@ Prerequisites:
 							     	[Batch A]
 						/     					\
 		 			    [Images]		   			[Results]
-				/ 	   	|		\
-		Sample1Region1.tif	Sample1Region2.tif	Sample2Region1.tif
+					   	|		
+					- Sample1Region1.tif
+					- Sample1Region2.tif
+					- Sample2Region1.tif
 
 4. Plugins and update sites:
    - The plugins ImageScience, 3D ImageJ Suite and MorpholibJ need to be installed for the toolset to work. If they are not already, you need to run Help > Update, click on Manage update sites and check the boxes for 
