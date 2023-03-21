@@ -20,6 +20,10 @@ This 4 steps FIJI/ImageJ toolset is intended for the 3D colocalization of two nu
 	<img src="img/Icons.PNG" width=75%>
 </p>
 
+7. A sample dataset that allows the testing of the toolset is available at: 
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7038336.svg)](https://doi.org/10.5281/zenodo.7038336)
+
 ## How to use it?
 Prerequisites:
 1. Type of files: 
