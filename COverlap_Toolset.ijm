@@ -53,8 +53,13 @@ var overlapThr = 50;
 var excludeEdges = true;
 
 var ask4ROIs = true;
-
+var useNewOverlap = "No";
+var newOverlapThr = 0;
 var sampleName;
+
+var screenW = 0;
+var screenH = 0;
+
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // Macros:
@@ -75,9 +80,9 @@ macro "Macro 1: Creation of Max Intensity Projection images Action Tool - N66C00
 macro "Macro 2: Testing of parameters for nuclear markers segmentation Action Tool - N66C000D0aD0bD0cD0dD0eD18D19D1aD1bD1cD1dD1eD27D28D29D35D36D44D45D53D54D62D63D72D73D82D91D92D98D99D9aDa0Da1Da7Da8Da9DaaDabDb0Db1Db6Db7Db8DbbDc0Dc1Dc6Dc7Dc8DceDd0Dd1Dd6Dd7Dd8DdcDddDdeDe0De1De6De7De8De9DeaDebDecDedC9ecC000D26D37D81DeeCfffD00D01D02D03D04D05D06D07D08D09D10D11D12D13D14D15D16D17D20D21D22D23D24D25D30D31D32D33D34D40D41D42D43D50D51D52D60D61D70D71D80D90CaecCe9aD2aD2bD2dD2eD39D3aD3bD3cD3dD3eD46D47D48D49D4aD4bD4cD4dD4eD55D56D57D58D59D5aD5bD5cD5dD5eD65D66D67D68D69D6aD6bD6cD6dD6eD74D75D76D77D78D79D7aD7bD7cD7dD7eD83D84D85D86D87D88D89D8aD8bD8cD8dD8eD93D94D95D96D97D9bD9cD9dD9eDa2Da3Da4Da5Da6DacDadDb2Db3Db4Db5Db9DbcDbdDbeDc2Dc3Dc4Dc5Dc9DcaDcbDccDcdDd2Dd3Dd4Dd5Dd9DdaDe2De3De4De5C9ecCd8aDbaDdbC100Cd9aD2cD38D64DaeC111C101Bf0C000D01D07D08D09D0aD0bD0cD11D12D18D19D1aD1bD21D22D32D33D42D43D53D64D65D75D76D86D87D88D89D98D99D9aD9bD9cD9dD9eDaaDabDacDadDaeC9ecC000D77CfffD10D20D30D31D40D41D50D51D52D60D61D62D63D70D71D72D73D74D80D81D82D83D84D85D90D91D92D93D94D95D96D97Da0Da1Da2Da3Da4Da5Da6Da7Da8Da9CaecD0dD0eD1dD1eD29D2aD2bD2cD2dD2eD38D39D3aD3bD3cD3dD3eD47D48D49D4aD4bD4cD4dD4eD56D57D58D59D5aD5bD5cD5dD5eD66D67D68D69D6aD6bD6cD6dD6eD78D79D7aD7bD7cD7dD7eD8aD8bD8cD8dD8eCe9aD02D03D04D05D06D13D14D15D16D17D23D24D25D26D27D28D35D36D37D44D45D46C9ecD1cCd8aC100D54Cd9aD34D55C111D00C101B0fC000D03D04D09D0aD13D14D18D19D23D24D28D29D37D38D47D48D56D57D65D66D74D75D81D82D83D84D90D91Da0C9ecD34C000D73CfffD1aD2aD39D3aD49D4aD58D59D5aD67D68D69D6aD76D77D78D79D7aD85D86D87D88D89D8aD93D94D95D96D97D98D99D9aDa1Da2Da3Da4Da5Da6Da7Da8Da9DaaCaecD00D01D02D05D06D07D08D10D11D12D15D16D17D20D21D22D25D26D27D30D31D32D33D35D36D40D41D42D43D44D45D46D50D51D52D53D54D55D60D61D62D63D64D70D71D72D80Ce9aC9ecCd8aC100Cd9aC111D92C101Nf0C000D00D10D11D12D21D22D23D24D33D34D35D45D46D56D57D67D68D77D78D82D83D84D88D89D92D93D94D98D99Da1Da2Da3Da4Da9DaaDb0Db1Db2Db3Db4Db9DbaDc0Dc1Dc3Dc4Dc9DcaDd0Dd3Dd4Dd9DdaDe3De4De9DeaC9ecC000CfffD01D02D03D04D05D06D07D08D09D0aD13D14D15D16D17D18D19D1aD25D26D27D28D29D2aD36D37D38D39D3aD47D48D49D4aD58D59D5aD69D6aD79D7aD8aD9aCaecD65D66D74D75D76D85D86D87D95D96D97Da5Da6Da7Da8Db5Db6Db7Db8Dc2Dc5Dc6Dc7Dc8Dd1Dd2Dd5Dd6Dd7Dd8De1De2De5De6De7De8Ce9aD20D30D31D32D40D41D42D43D44D50D51D52D53D54D60D61D62D63D64D70D71D72D73D80D81D90Da0C9ecDe0Cd8aC100Cd9aD55C111C101D91" {
 
 	cleanUp();
-	close("Results");
 	GUIMacro2();
 	Array.show(maxFilesList);
+	Table.setLocationAndSize(screenW*0.7, screenH*0.3, screenW*0.3, screenH*0.6, "maxFilesList");
 	
 	while (true) {
 		
@@ -128,7 +133,6 @@ macro "Macro 2: Testing of parameters for nuclear markers segmentation Action To
 			}
 		}
 		
-		run("Channels Tool...");
 		waitForUser("You can examine the Visualization images to see if the outline matches your objects of interest. You can toggle the outline on and off with the Channels Tool.\n\nWhen you're ready for another test: \n- If you want to test different parameters on the same image and ROI, do not close anything and just click OK\n- Else, close all images with MAJ + W and click OK \nIf you are done, click on Cancel"); 
 	}
 }
@@ -154,6 +158,7 @@ macro "Macro 4: Verification and correction of images Action Tool - N66C000D0aD0
 	cleanUp();
 	run("Set Measurements...", "area redirect=None decimal=9"); // Different from what is in the cleanUp function
 	
+	useNewOverlap = "No";
 	GUIMacro4();
 	
 	while (true) {
@@ -188,21 +193,24 @@ macro "Macro 4: Verification and correction of images Action Tool - N66C000D0aD0
 		}
 		
 		// Retrieves the ROI of the image and the Results file		
+		print("\\Clear");
 		sampleName = replace(getTitle(), "_VisualizationComposite.tif", "");
 		tableResults = getResultsFileName(outputDirectory, ".*Results\.xls$");
 		print("Working on Results file: " + tableResults);
-		processROI();
 		
 		// Performs corrections if wanted
-		ask4recount = getBoolean("Do you want to reslice, recount or correct the volume of the stack?");
+		ask4recount = getBoolean("Do you want to to do any of these actions? \n-Modify the ROI \n-Reslice the stack\n-Change the overlap threshold\n-Correct the volume estimation?");
 		if (ask4recount) {
 			
+			print("Working on sample: " + sampleName);
+			run("Channels Tool...");
+			selectWindow("Channels");
+			setLocation(screenW*0.4, 0);
+			Stack.setActiveChannels("1110");						
 			reprocessStack();
+			run("Tile");
 			selectWindow(tableResults);
 			Table.save(outputDirectory + tableResults);
-			selectWindow(sampleName + "_VisualizationComposite.tif");
-			run("Select None");
-			run("Tile");
 			waitForUser("You can compare the previous and the new composite images. Click OK when you are ready to move on");
 		}
 		
@@ -218,19 +226,48 @@ macro "Macro 4: Verification and correction of images Action Tool - N66C000D0aD0
 //------------------------------------------------------------------------------
 function cleanUp() { 
 // Cleans up the workspace and sets measurements
-
-	print("\\Clear");
-	run("Clear Results");
-	run("Close All");
-	roiManager("reset");
-	setBackgroundColor(0, 0, 0);	
-	run("Set Measurements...", " decimal=9");
-	run("Options...", "iterations=1 count=1 black");
-	setOption("ExpandableArrays", true); // Enables arrays to extend automatically when elements are added to them
+	
+	// Get screen size
+	screenH = screenHeight;
+	screenW = screenWidth;
+	
+	// Close all open windows
+	closeAllWindows();
+	
+	// Run Plugin check
 	createEmptyTableActionMacro();
 	checkForPlugin("MorphoLibJ...", "IJPB-plugins");
 	checkForPlugin("3D ImageJ Suite", "3D ImageJ Suite");
 	checkForImageScience();
+	
+	// Initialize and place Log Window
+	print("\\Clear");
+	Table.setLocationAndSize(screenW*0.7, 0, screenW*0.3, screenH*0.3, "Log");
+	
+	// Initialize and place ROI Manager
+	roiManager("reset");
+	selectWindow("ROI Manager");
+	setLocation(screenW*0.55, 0);
+	
+	// Set necessary options
+	setBackgroundColor(0, 0, 0);	
+	run("Set Measurements...", " decimal=9");
+	run("Options...", "iterations=1 count=1 black");
+	setOption("ExpandableArrays", true); // Enables arrays to extend automatically when elements are added to them
+}
+
+//------------------------------------------------------------------------------
+function closeAllWindows(){
+// Closes all open windows
+	
+	close("*");
+	windowList = getList("window.titles");
+	windowListLength = lengthOf(windowList);
+   
+	for (i=0; i<windowListLength; i++) {
+		
+   		close(windowList[i]);
+	}
 }
 
 //------------------------------------------------------------------------------
@@ -682,7 +719,7 @@ function colocOverlapAnalysis(imageA, imageB, overlapThreshold, name3Drois, reco
 		selectWindow(imageB);
 		run("Select Label(s)", "label(s)=[" + String.join(labelsB) + "]");
 		rename("ColocOverlapTh_" + imageB);
-		
+
 		// Save 3D ROIs of colocalizations
 		save3DROIS(imageA, imageB, labelsA, labelsB, target1, target2, name3Drois);
 	}
@@ -690,12 +727,10 @@ function colocOverlapAnalysis(imageA, imageB, overlapThreshold, name3Drois, reco
 	// Save results
 	countColoc(imageA, imageB, recount);
 	
-	if (!recount) {	
-		// Save control images
-		saveColocControl();
-	}
-	
-	// Close overlap images
+	// Save control images
+	saveColocControl(imageA, imageB, recount);
+
+	// Close overlap segmentation images
 	close("ColocOverlapTh_" + imageA);
 	close("ColocOverlapTh_" + imageB);
 
@@ -716,7 +751,8 @@ function getColocLabels(imageA, imageB, overlapThreshold) {
 	// Objects of image A having overlapping objects of image B:
 	run("3D MultiColoc", "image_a=" + imageA + " image_b=" + imageB + "");
 	selectWindow("Colocalisation");
-	Table.rename("Colocalisation", "Colocalisation" + imageA);		
+	Table.rename("Colocalisation", "Colocalisation" + imageA);
+	Table.setLocationAndSize(screenW*0.25, 0, screenW*0.15, screenH*0.20, "Colocalisation" + imageA);		
 	nbRows = Table.size;
 	headings = split(Table.headings); // Array of Colocalisation Table headings 
 	maxObjects = (lengthOf(headings)-1)/3; // Max number of objects B that can be found for a single Object A
@@ -746,7 +782,8 @@ function getColocLabels(imageA, imageB, overlapThreshold) {
 	// Objects of image B having overlapping objects of image A:
 	run("3D MultiColoc", "image_a=" + imageB + " image_b=" + imageA + "");
 	selectWindow("Colocalisation");
-	Table.rename("Colocalisation", "Colocalisation" + imageB);			
+	Table.rename("Colocalisation", "Colocalisation" + imageB);
+	Table.setLocationAndSize(screenW*0.40, 0, screenW*0.15, screenH*0.20, "Colocalisation" + imageB);					
 	nbRows = Table.size;
 	headings = split(Table.headings); // Array of Colocalisation Table headings
 	maxObjects = (lengthOf(headings)-1)/3; // Max number of objects A that can be found for a single Object B
@@ -772,8 +809,8 @@ function getColocLabels(imageA, imageB, overlapThreshold) {
 			labels = Array.concat(labels, Table.get("LabelObj", j)); // Add right of "X"		
 		}
 	}
-	print("Labels: ");
-	Array.print(labels);
+	//print("Labels: ");
+	//Array.print(labels);
 	return labels;
 }
 
@@ -888,8 +925,9 @@ function countColoc(imageA, imageB, recount) {
 		Table.set("Roi Volume_(mm3)", Table.size-1, area*slices*depth/1000000000);
 		Table.set(target1 + " count", Table.size-1, target1Count); 
 		Table.set(target2 + " count", Table.size-1, target2Count);
-		Table.set(target1 + " in " + target2 + " Thr " + overlapThr + "% count", Table.size-1, colocT1T2);
-		Table.set(target2 + " in " + target1 + " Thr " + overlapThr + "% count", Table.size-1, colocT2T1);
+		Table.set("Overlap % Threshold", Table.size-1, overlapThr)
+		Table.set(target1 + " in " + target2 + " count", Table.size-1, colocT1T2);
+		Table.set(target2 + " in " + target1 + " count", Table.size-1, colocT2T1);
 		getDateAndTime(year, month, dayOfWeek, dayOfMonth, hour, minute, second, msec);
 		Table.set("Processed the ", Table.size-1, "" + year + "/" + month + 1 + "/" + dayOfMonth + " at " + hour + ":" + minute + ":" +  second);
 	}
@@ -908,10 +946,131 @@ function countColoc(imageA, imageB, recount) {
 		Table.set("Corrected Volume mm3", targetRow, 0); // placeholder
 		Table.set("New" + target1 + " count", targetRow, newT1Count); 
 		Table.set("New" + target2 + " count", targetRow, newT2Count);
-		Table.set("New " + target1 + " in " + target2 + " Thr " + overlapThr + "%", targetRow, colocT1T2);
-		Table.set("New " + target2 + " in " + target1 + " Thr " + overlapThr + "%", targetRow, colocT2T1);
+		Table.set("New Overlap % Threshold", targetRow, newOverlapThr);
+		Table.set("New " + target1 + " in " + target2 + " count", targetRow, colocT1T2);
+		Table.set("New " + target2 + " in " + target1 + " count", targetRow, colocT2T1);
 		Table.update;
  	}
+}
+
+//------------------------------------------------------------------------------
+function saveColocControl(imageA, imageB, recount) { 
+// Saves verification images (one .jpg displaying the ROI 
+// and the found colocalizations on the MIP, and one .tif composite image with 
+// the binary segmentation for each channel, and the found colocalizations on a  
+// third channel. These images will be reused in Macro 4.
+
+	// Transform all images into 8-bit binaries
+	imageList = getList("image.titles");
+	imageList = Array.deleteValue(imageList, sampleName + "_VisualizationComposite.tif"); // If recount then the original composite should not be modified
+	
+	for (j = 0; j < imageList.length; j++) {
+	
+		makeBin(imageList[j]);
+	}
+	
+	if (colocFound) {
+
+		// Make an Overlap image from the two Overlap binary images
+		imageCalculator("AND create stack", "ColocOverlapTh_" + imageA, "ColocOverlapTh_" + imageB);
+		rename("ColocOverlap");
+		
+		// Prepare the MIP for the colocalization outline for the VisualizationMIP image
+		selectImage("ColocOverlap");
+		run("Z Project...", "projection=[Max Intensity]");
+		rename("MIPColocOverlap");
+	}
+	
+	else {
+		
+		// Make an empty Overlap image
+		selectImage(imageList[0]);
+		run("Duplicate...", "title=ColocOverlap duplicate");
+		run("Select All");
+		setForegroundColor(0, 0, 0);
+		run("Fill", "stack");
+	}
+	
+	// Create image with discarded overlapping objects
+	imageCalculator("AND create stack", imageA, imageB);
+	rename("DiscardedOverlap");
+	imageCalculator("Subtract stack", "DiscardedOverlap", "ColocOverlap");	
+	
+	// Merge into the VisualizationComposite image and save
+	run("Merge Channels...", "c1=" + imageB + " c2=" + imageA + " c3=ColocOverlap c4=DiscardedOverlap create ignore");
+	
+	Stack.setActiveChannels("1110");
+	
+	if (!recount) {
+		
+		saveAs(".zip", outputDirectory + sampleName + "_VisualizationComposite"); // If too heavy, change for a ".zip"	
+	}
+	
+	else {
+	
+		saveAs(".zip", outputDirectory + sampleName + "_VisualizationComposite_Adjusted"); // If too heavy, change for a ".zip"	
+	}
+
+	close("DiscardedOverlap");
+	
+	// Create VisualizationMIP image and save
+	open(pathMIP);
+	openMIP = getTitle();
+	Property.set("CompositeProjection", "Sum");
+	Stack.setDisplayMode("composite");
+	getDimensions(width, height, channels, slices, frames);
+	
+	for (c = 0; c < channels; c++) {
+		
+		String.append("1");
+	}
+	
+	activeChannels = String.buffer;
+	Stack.setActiveChannels(activeChannels); 
+	roiManager("Select", 0); // OriginalROI
+	wait(1000);
+	run("Crop");
+	roiManager("Select", 2); // UpdatedROI
+	wait(1000);
+	Overlay.addSelection("red", 5);
+	
+	if (colocFound) {
+
+		selectImage("MIPColocOverlap");
+		run("Create Selection");
+		roiManager("add"); 
+		roiManager("select", roiManager("count")-1);
+		roiManager("rename", "MIPColocs");
+		close("MIPColocOverlap");
+		selectImage(openMIP);
+		roiManager("Select", 3);
+		run("Enlarge...", "enlarge=10");
+		roiManager("update");
+		Overlay.addSelection("red", 3);
+	}
+	
+	if (!recount) {
+		
+		saveAs(".jpeg", outputDirectory + sampleName + "_VisualizationMIP");
+	}
+	
+	else {
+		
+		saveAs(".jpeg", outputDirectory + sampleName + "_VisualizationMIP_Adjusted");
+	}
+	
+	close();
+}
+
+//------------------------------------------------------------------------------
+function makeBin(segImage) {
+// Transforms a label image into a binary image
+	
+	selectImage(segImage);
+	run("8-bit");
+	setThreshold(1, 255);
+	run("Make Binary", "background=Dark black");
+	run("Original Scale");
 }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -951,6 +1110,7 @@ function GUIMacro1() {
 	
 	imageFilesList = getFilesList(sourceDirectory, newArray("^(?!MAX_).*" + nameToFind + ".*\." + extensionToFind +"$")); // Excludes images that start with "MAX_"
 	Array.show(imageFilesList);
+	Table.setLocationAndSize(screenW*0.7, screenH*0.3, screenW*0.3, screenH*0.2, "imageFilesList");
 	print(imageFilesList.length + " images to process");
 }
 
@@ -1007,7 +1167,12 @@ function maxIntensityProjection() {
 		}
 		
 		// Shows all the channels at once
-		if (makeComposite) run("Make Composite");
+		if (makeComposite) {
+			
+			run("Make Composite");
+			Property.set("CompositeProjection", "Sum");
+			Stack.setDisplayMode("composite");
+		}
 		
 		// Saves the preprocessing step, a Max intensity projection, into each image's original directory
 		saveAs("Tiff", imageDirectory + "MAX_"+ directoryName + ".tif");
@@ -1129,8 +1294,13 @@ function analyzeTestROI() {
 	
 	makeVisualization(channel2, target2);
 	close(sampleName + "_Seg" + target2);
-	
+				
 	setBatchMode("exit and display");
+	
+	organizeImages();
+	run("Channels Tool...");
+	selectWindow("Channels");
+	setLocation(screenW*0.4, 0);
 		
 	call("java.lang.System.gc");
 	beep();
@@ -1149,6 +1319,110 @@ function makeVisualization(channelName, targetName) {
 	
 	selectWindow("3D_Median");
 	rename(sampleName + "_Filtered_" + targetName);
+}
+
+//------------------------------------------------------------------------------
+function organizeImages() { 
+// Organizes visualization images
+
+	sHeight = screenH*0.1;
+	sWidth = screenW*0.7;
+	
+	// Get image size
+	selectImage("C1_Original");
+	run("Original Scale");
+	imgWidth = getWidth();
+	imgHeight = getHeight();
+	
+	// Get headers size
+	getLocationAndSize(x, y, width, height);
+	winWidth = width;
+	winHeight = height;
+	headerWidth = winWidth - imgWidth;
+	headerHeight = winHeight - imgHeight;
+	
+	// Set ideal window width 
+	if (imgHeight > 2*imgWidth) {
+		
+		idWinWidth = sWidth/6;
+	}
+	
+	else {
+		
+		idWinWidth = sWidth/3;
+	}
+	
+	idImgWidth = idWinWidth - headerWidth;
+	
+	// Set ideal window height
+	idImgHeight = imgHeight*idImgWidth/imgWidth;
+	idWinHeight = idImgHeight + headerHeight;
+	
+	// Prevent images from going under the taskbar
+	if (imgHeight > 2*imgWidth) { // For tall images
+		if (idWinHeight > screenH*0.9) {
+			
+			idWinHeight = screenH*0.85;
+			idImgHeight = idWinHeight - headerHeight;
+			idImgWidth = imgWidth*idImgHeight/imgHeight;
+			idWinWidth = idImgWidth + headerWidth;
+		}
+	}
+	else { // For normal or wide images
+		if (2*idWinHeight > screenH*0.82) {
+			
+			idWinHeight = screenH*0.41;
+			idImgHeight = idWinHeight - headerHeight;
+			idImgWidth = imgWidth*idImgHeight/imgHeight;
+			idWinWidth = idImgWidth + headerWidth;
+		}
+	}		
+	
+	// Place first image
+	selectImage("C1_Original");
+	setLocation(0, sHeight, idWinWidth, idWinHeight);
+	
+	// Get zoom, floor it and set it
+	zoom = floor(getZoom()*100);
+	run("Set... ", "zoom=" + zoom);
+	
+	// Place other images
+	selectImage(target1 + "_Visualization");
+	setLocation(idWinWidth, sHeight);
+	run("Set... ", "zoom=" + zoom);
+	// Get first row height
+	getLocationAndSize(x, y, width, height);
+	rowHeight = height;
+	selectImage(sampleName + "_Filtered_" + target1);
+	setLocation(2*idWinWidth, sHeight);
+	run("Set... ", "zoom=" + zoom);
+	
+	if (imgHeight > 2*imgWidth) {
+		
+		selectImage(channel2 + "_Original");
+		setLocation(3*idWinWidth, sHeight);
+		run("Set... ", "zoom=" + zoom);
+		selectImage(target2 + "_Visualization");
+		setLocation(4*idWinWidth, sHeight);
+		run("Set... ", "zoom=" + zoom);
+		selectImage(sampleName + "_Filtered_" + target2);
+		setLocation(5*idWinWidth, sHeight);
+		run("Set... ", "zoom=" + zoom);
+	}
+	
+	else {
+		
+		selectImage(channel2 + "_Original");
+		setLocation(0, sHeight + rowHeight);
+		run("Set... ", "zoom=" + zoom);
+	
+		selectImage(target2 + "_Visualization");
+		setLocation(idWinWidth, sHeight + rowHeight);
+		run("Set... ", "zoom=" + zoom);
+		selectImage(sampleName + "_Filtered_" + target2);
+		setLocation(2*idWinWidth, sHeight + rowHeight);
+		run("Set... ", "zoom=" + zoom);
+	}
 }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1236,6 +1510,7 @@ function analyzeROIs() {
 	setBatchMode(true);
 	tableResults = File.getName(sourceDirectory) + "_Results";
 	Table.create(tableResults);
+	Table.setLocationAndSize(screenW*0.7, screenH*0.3, screenW*0.3, screenH*0.5, tableResults);
 	
 	for(i=0; i<maxFilesList.length; i++) { // Opens image + corresponding ROI
 
@@ -1265,7 +1540,7 @@ function analyzeROIs() {
 			Stack.getDimensions(width, height, channels, slices, frames); // Need "slices"
 			
 			roiManager("Open", outputDirectory + sampleName + "_ROI.zip"); // Opens the ROI .zip file
-			parentDirectory = File.getParent(imageFilesList[i]);			
+			parentDirectory = File.getParent(imageFilesList[i]);
 			roiManager("select", 0);
 			getStatistics(area, mean, min, max, std, histogram); 
 			getVoxelSize(width, height, depth, unit);
@@ -1319,6 +1594,7 @@ function analyzeROIs() {
 
 			segImage1 = sampleName + "_Seg" + target1;
 			segImage2 = sampleName + "_Seg" + target2;
+			pathMIP = maxFilesList[i];
 			colocOverlapAnalysis(segImage1, segImage2, overlapThr, "_Coloc3DROIs.zip", false);
 		}
 		
@@ -1333,79 +1609,6 @@ function analyzeROIs() {
 	setBatchMode("exit and display");
 }
 
-//------------------------------------------------------------------------------
-function saveColocControl() { 
-// Saves verification images (one .jpg displaying the ROI 
-// and the found colocalizations on the MIP, and one .tif composite image with 
-// the binary segmentation for each channel, and the found colocalizations on a  
-// third channel. These images will be reused in Macro 4.
-
-	// Transform all images into 8-bit binaries
-	imageList = getList("image.titles");
-
-	for (j = 0; j < imageList.length; j++) {
-	
-		selectImage(imageList[j]);
-		run("8-bit");
-		setThreshold(1, 255);
-		run("Make Binary", "background=Dark black");
-	}
-	
-	if (colocFound) {
-
-		// Make an Overlap image from the two Overlap binary images
-		imageCalculator("AND create stack", "ColocOverlapTh_" + imageA, "ColocOverlapTh_" + imageB);
-		rename("Overlap");
-	}
-	
-	else {
-		
-		// Make an empty Overlap image
-		selectImage(imageList[0]);
-		run("Duplicate...", "title=Overlap duplicate");
-		run("Select All");
-		setForegroundColor(0, 0, 0);
-		run("Fill", "stack");
-	}
-	
-	// Merge into the VisualizationComposite image and save
-	run("Merge Channels...", "c1=" + imageB + " c2=" + imageA + " c3=Overlap create keep ignore");
-	saveAs(".tif", outputDirectory + sampleName + "_VisualizationComposite"); // If too heavy, change for a ".zip"
-
-	// Create VisualizationMIP image and save
-	if (colocFound) {
-	
-		selectImage("Overlap");
-		run("Z Project...", "projection=[Max Intensity]");
-		run("Create Selection");
-		roiManager("add"); // Becomes ROI number 2
-		close();
-	}
-
-	open(maxFilesList[i]);
-	Stack.setDisplayMode("composite");
-	getDimensions(width, height, channels, slices, frames);
-	for (c = 0; c < channels; c++) {
-		
-		String.append("1");
-	}
-	activeChannels = String.buffer;
-	Stack.setActiveChannels(activeChannels); 
-	roiManager("Select", 0);
-	run("Crop");
-	roiManager("Select", 1);
-	Overlay.addSelection("red", 5);
-	
-	if (colocFound) { 
-		
-		roiManager("Select", 2);
-		run("Enlarge...", "enlarge=10");
-		Overlay.addSelection("red", 2);
-	}
-	
-	saveAs(".jpeg", outputDirectory + sampleName + "_VisualizationMIP"); // Verification image
-}
-
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // Functions specific to Macro 4:
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1415,10 +1618,11 @@ function GUIMacro4() {
 // Asks for the results directory and target parameters
 	
 	// Gets results directory and shows the verification images list
-	sourceDirectory = getDirectory("Please open the results directory containing the results, ROIs and verification images of your batch.");
-	outputDirectory = sourceDirectory;
-	verificationFileList = getFilesList(sourceDirectory, newArray(".*VisualizationComposite\.tif$", ".*VisualizationMIP\.jpg$")); //Should always be the same if 1st macro was used
-	Array.show(verificationFileList);
+	sourceDirectory = getDirectory("Please open the images directory containing the MIPs of your batch.");
+	outputDirectory = getDirectory("Please open the results directory containing the results, ROIs and verification images of your batch.");
+	verificationFilesList = getFilesList(outputDirectory, newArray(".*VisualizationComposite\.zip$", ".*VisualizationMIP\.jpg$")); //Should always be the same if 1st macro was used
+	Array.show(verificationFilesList);
+	Table.setLocationAndSize(screenW*0.7, screenH*0.5, screenW*0.3, screenH*0.45, "verificationFilesList");
 	Table.setSelection(-1, -1);
 	
 	// Loads Test Parameters if any are saved
@@ -1431,7 +1635,7 @@ function GUIMacro4() {
 	Dialog.addString("Target 2", target2);
 	Dialog.addToSameRow();
 	Dialog.addString("Channel", channel2);
-	Dialog.addNumber("Overlap Threshold: ", overlapThr, 0, 3, "%");
+	Dialog.addNumber("Original Overlap Threshold: ", overlapThr, 0, 3, "%");
 	Dialog.addCheckbox("Save parameters", false);
 	
 	Dialog.show();
@@ -1445,7 +1649,7 @@ function GUIMacro4() {
 
 	
 	// Creates or updates list to save target parameters
-	if (saveTargets) saveParameters(sourceDirectory + "Test_Parameters.txt");
+	if (saveTargets) saveParameters(outputDirectory + "Test_Parameters.txt");
 }
 
 //------------------------------------------------------------------------------
@@ -1464,41 +1668,6 @@ function getResultsFileName(dir, lookingFor) {
 }
 
 //------------------------------------------------------------------------------
-function processROI() { 
-// Opens ROI, allows its modification and records the new one if needed
-			
-	selectImage(imageList[0]);
-	roiFile = outputDirectory + sampleName + "_ROI.zip";
-	roiManager("Open", roiFile); // Opens the ROI .zip file
-	roiManager("Select", 0);
-	setSelectionLocation(0, 0);
-	getSelectionCoordinates(oriX, oriY);
-	waitForUser("Check the stack and reshape the selection if needed");
-
-	// Checks if selection has been changed
-	getSelectionCoordinates(newX, newY);
-	coorDiffX = ArrayDiff(oriX, newX);
-	coorDiffY = ArrayDiff(oriY, newY);
-	
-	if (coorDiffX.length > 0 || coorDiffY.length > 0) {
-		
-		askSaveNewRoi = getBoolean("Do you want to save this modified ROI?");
-		
-		if (askSaveNewRoi) {
-			
-			roiManager("update");
-			newRoiName = sampleName + "_ROIAdjusted.zip";
-			roiManager("Save", outputDirectory + newRoiName);
-		}
-	}
-	
-	else {
-		
-		roiManager("update");
-	}
-}
-
-//------------------------------------------------------------------------------
 function reprocessStack() { 
 // Allows the reslicing of the z-stack by creating a substack of the composite 
 // image, and reprocesses the stack, recounting the segmented objects, according
@@ -1506,40 +1675,128 @@ function reprocessStack() {
 // modifications have been made or not (gives a truer volume based on what has
 // been segmented, rather than based on the ROI).
 	
-	// Offers to reslice the stack
-	run("Make Substack...");
+	// Initialize z-stack parameters
+	Stack.getDimensions(width, height, channels, slices, frames);
+	fromSlice = 1;
+	toSlice = slices;
 	
+	// Opens corresponding ROI 
+	selectImage(imageList[0]);
+	roiFile = outputDirectory + sampleName + "_ROI.zip";
+	roiManager("Open", roiFile); // Opens the ROI .zip file
+	roiManager("Select", 0);
+	roiManager("rename", "OriginalROI");
+	setSelectionLocation(0, 0); 
+	roiManager("add");
+	roiManager("select", roiManager("count")-1);
+	roiManager("rename", "OriginalROIcrop");
+	getSelectionCoordinates(oriX, oriY);
+	
+	// Show GUI for corrections parameters
+	
+	do {
+		Dialog.createNonBlocking("Corrections options");
+		Dialog.addMessage("Check the ROI and modify it if needed");
+		Dialog.addMessage("Check the z-stack for empty slices, and reslice if you want to remove top/bottom slices");
+		Dialog.addSlider("Top slice: ", 1, slices, 1);
+		Dialog.addSlider("Bottom slice: ", 1, slices, slices);
+		Dialog.addMessage("Toggle Channel 3 and 4 that respectively hold above threshold (kept) and under threshold (discarded) colocalizations");
+		Dialog.addRadioButtonGroup("Do you want to change the overlap threshold?", newArray("No", "Yes"), 1, 2, useNewOverlap);
+		if (useNewOverlap == "Yes") {
+			
+			Dialog.addNumber("New threshold: ", newOverlapThr, 0, 3, "%");
+		}
+		else {
+			
+			Dialog.addNumber("New threshold: ", overlapThr, 0, 3, "%");
+		}
+		Dialog.show();
+		
+		fromSlice = Dialog.getNumber();
+		toSlice = Dialog.getNumber();
+	}	while (fromSlice >= toSlice);
+			
+	if (Dialog.getRadioButton() == "Yes") {
+		
+		useNewOverlap = "Yes"; // flag when it has been used once during the macro
+		newOverlapThr = Dialog.getNumber();
+	}
+	
+	else {
+		useNewOverlap = "No"; // Switches it back to no in case had been yes once before
+		newOverlapThr = overlapThr;
+	}
+
+	// Checks if the ROI has been changed
+	getSelectionCoordinates(newX, newY);
+	coorDiffX = ArrayDiff(oriX, newX);
+	coorDiffY = ArrayDiff(oriY, newY);
+	askSaveNewRoi = false;
+	
+	if (coorDiffX.length > 0 || coorDiffY.length > 0) {
+		
+		askSaveNewRoi = getBoolean("Do you want to use and save this modified ROI?");
+		
+	}
+	
+	if (askSaveNewRoi) {
+			
+		roiManager("add");
+		roiManager("select", roiManager("count")-1);
+		roiManager("rename", "UpdatedROI");
+		newRoiName = sampleName + "_ROIAdjusted.zip";
+		roiManager("save selected", outputDirectory + newRoiName);
+	}
+		
+	else {
+		
+		roiManager("select", 1);
+		roiManager("add");
+		roiManager("select", roiManager("count")-1);
+		roiManager("rename", "UpdatedROI");
+	}
+	
+	// Make a new substack with reslicing parameters	
 	setBatchMode(true);
+	run("Make Substack...", "channels=1-3 slices=" + fromSlice + "-" + toSlice + "");
+	close("\\Others"); // Close the original Composite for now	
+	
+	// Open and set location of Results table
 	Table.open(outputDirectory + tableResults);
+	Table.setLocationAndSize(screenW*0.7, screenH*0.3, screenW*0.3, screenH*0.2, tableResults);
+	
+	// Reprocess stack
 	run("Split Channels");
 	imageList = getList("image.titles");
 	
 	// Make new segmentation images
+	close("C3*");
+	close("C4*");
 	makeSeg("^" + channel1 + ".*", target2);
 	makeSeg("^" + channel2 + ".*", target1);
-	makeSeg("^C3.*", "Coloc");
-	
-	roiManager("Select", 0);
+	roiManager("Select", 2); // UpdatedROI
 	Stack.getDimensions(width, height, channels, slices, frames);
 	getStatistics(area, mean, min, max, std, histogram);
 	
-	// Recount colocalizations on the segmentation images 
-	colocOverlapAnalysis("Seg_" + target1, "Seg_" + target2, overlapThr, "_Coloc3DROIs_Adjusted.zip", true);
-	
-	// Performs volume correction
-	makeBin("Seg_" + target1);
-	makeBin("Seg_" + target2);
-	makeBin("Seg_Coloc");
-	
-	run("Merge Channels...", "c1=Seg_" + target1 + " c2=Seg_" + target2 +  " c3=Seg_Coloc keep");
+	// Recount colocalizations and make new control images
+	maxFilesList = getFilesList(sourceDirectory, newArray("^MAX_" + sampleName + ".*"));
+	pathMIP = maxFilesList[0];	
+	colocOverlapAnalysis("Seg_" + target1, "Seg_" + target2, newOverlapThr, "_Coloc3DROIs_Adjusted.zip", true);
+
+	// Perform volume correction	
+	selectImage(sampleName + "_VisualizationComposite_Adjusted.tif");
+	run("RGB Color", "slices keep");
+	rename("RGB");
 	correctVolume("RGB");
 	close("RGB");
 	
-	// Displays the modified composite image
-	run("Merge Channels...", "c1=Seg_" + target2 + " c2=Seg_" + target1 +  " c3=Seg_Coloc create ignore");
-	
+	// Close everything and reopen original and modified composite so they tile as a before/after
+	close("*");
+	open(outputDirectory + sampleName + "_VisualizationComposite.zip");
+	roiManager("select", 1);
+	open(outputDirectory + sampleName + "_VisualizationComposite_Adjusted.zip");
+	roiManager("select", 2);
 	setBatchMode("exit and display");
-	run("Tile");
 }
 
 //------------------------------------------------------------------------------
@@ -1553,7 +1810,9 @@ function makeSeg(pattern, channelName) {
 		
 			selectImage(imageList[i]);
 			print("New count for channel " + channelName + ":");
-			roiManager("Select", 0);
+			roiManager("Select", 2); // For some reason doesn't work if I directly select "UpdatedROI"...
+			wait(1000);
+			setBackgroundColor(0, 0, 0);
 			run("Clear Outside", "stack");	
 			run("3D Simple Segmentation", "low_threshold=1 min_size=0 max_size=-1");
 			close(imageList[i]);
@@ -1562,17 +1821,6 @@ function makeSeg(pattern, channelName) {
 			rename("Seg_" + channelName);			
 		}
 	}
-}
-
-//------------------------------------------------------------------------------
-function makeBin(segImage) {
-// Transforms a label image into a binary image
-	
-	selectImage(segImage);
-	run("8-bit");
-	setThreshold(1, 255);
-	run("Make Binary", "background=Dark black");
-	run("Original Scale");
 }
 
 //------------------------------------------------------------------------------
@@ -1586,12 +1834,9 @@ function correctVolume(pattern) {
 	
 		if (matches(imageList[i], pattern)) {
 		
-			selectImage(imageList[i]);
-			run("8-bit");
-			setThreshold(1, 255);
-			run("Make Binary", "background=Dark black");
+			makeBin(imageList[i]);
 			Stack.getDimensions(width, height, channels, slices, frames);
-			getVoxelSize(width, height, depth, unit); //
+			getVoxelSize(width, height, depth, unit);
 			
 			for (j=0; j<slices; j++) {
 			
@@ -1602,7 +1847,7 @@ function correctVolume(pattern) {
 			 		
 			 		run("Convex Hull");
 					roiManager("add");
-					roiManager("Select", newArray(0, roiManager("count")-1));
+					roiManager("Select", newArray(2, roiManager("count")-1)); // ROI 2 is supposed to be the UpdatedROI
 					roiManager("AND");
 					run("Properties... ", "name=0001-1841-1724 position=" + j+1 + " group=none stroke=none width=0 fill=none");
 					roiManager("add"); 
@@ -1645,7 +1890,7 @@ function lookForRow(target, table) {
 // target name
 
 	selectWindow(table);
-	for (i = 0; i < getValue("results.count"); i++) {
+	for (i = 0; i < Table.size; i++) {
 		
 		sName = Table.getString("Sample", i);
 		if (sName == target) {
