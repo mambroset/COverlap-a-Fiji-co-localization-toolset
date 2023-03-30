@@ -151,30 +151,39 @@ This step allows the user to sequentially draw and store one ROI per image to an
 |  - Perform object-based colocalization analysis on the two labeled images (Plugins > 3D Suite > Relationship > 3D MultiColoc), and retrieve pairs of objects for which at least one of the two objects meets the required % of overlap threshold |
 
 ### Macro 4: Verification and correction of images
-This final step allows the reviewing of your analysis. On top of making sure your parameters selection allowed the proper detection of your features of interest, you can perform corrections such as ROI reshaping (to exlude previously missed bubbles for example), or reslicing of the z-stack (to exlclude out-of-focus stack extremities for example). Another interesting feature is the volume recalculation (see Box 2 with illustration).
-1. Indicate your version of the Results folder and check the targets, channels and colocalization overlap % parameters.
+This final step allows the reviewing of your analysis. On top of making sure your parameters selection allowed the proper detection of your features of interest, you can perform corrections such as ROI reshaping (to exlude previously missed bubbles for example), or reslicing of the z-stack (to exlclude out-of-focus stack extremities for example). You can also review colocalization and compare kept and excluded events according to the threshold, and change it if necessary. Another interesting feature is the volume recalculation (see Box 2 with illustration).
+1. Indicate your version of the Images and Results folders and check the targets, channels and colocalization overlap % parameters.
 
 <p align="center">
 	<img src="img/Step4_GUI.PNG" width = 40%>
 </p>
 
-2. Double click on a _Composite.tif image in the list, then click OK. You can also open the associated .jpg image for visualization purposes, but do not forget to close it before clicking OK.
+2. Double click on a _Composite.zip image in the list, wait for it to open, then click OK. You can also open the associated .jpg image for visualization purposes, but do not forget to close it before clicking OK.
 
 <p align="center">
 	<img src="img/Step4_VerificationImages.PNG" width = 75%>	
 </p>
 
-3. Make sure that you do not have anything funny looking in your ROI, and reshape it if needed (for example exclude a bubble that you missed earlier and has created a lot of segmented noise). Also check the z-stack: if the top or the bottom of the stack is devoid of any segmentation, it could mean that it was out of focus when acquired: you should exclude these empty slices in the next step, so note which ones they are. If you wish to save and process this adjusted ROI, click Yes when prompted (if you have not modified it the prompt will not appear). 
-4. If you want to remove the undesired empty slices at the extremities of the stack, and/or recalculate the analyzed volume and the results for the modified ROI or stack, click Yes in the next dialog. 
-5. To exclude empty slices at the extremities, exclude them with the substack maker (for example if slices 27 to 33 are empty, reslice from 1 to 26).	
+3. If you want to perform any of the proposed corrections, click on OK. 
 
 <p align="center">
-	<img src="img/Step4_Subshyperstack.PNG" width = 40%>
+	<img src="img/Step4_ListActions.png" width = 40%>
 </p>
 
-6. The script will warn you if you still have empty slices remaining, and then will recalculate a corrected volume and recount the objects and colocalizations in this modified stack and/or ROI, appending the original results file accordingly. The 3D ROIs of colocalizing objects will also be updated.
-7. Repeat with the same image until satisfied or proceed to the next one until you have reviewed all of your batch!   
+4. The Corrections options GUI appears:
 
+<p align="center">
+	<img src="img/Step4_GUI_Corrections.png" width = 70%>
+</p>
+
+- Make sure that you do not have anything funny looking in your ROI, and reshape it if needed (for example exclude a bubble that you missed earlier and has created a lot of segmented noise). 
+- Also check the z-stack: if the top or the bottom of the stack is devoid of any segmentation, it could mean that it was out of focus when acquired: you should exclude these empty slices thanks to the sliders in the GUI (at least two slices must be kept and the top slice number must be inferior to the bottom number). 
+- Channel 3 displays the kept colocalizations, and channel 4 displays overlapping objects that were under the overlap threshold. If you wish to change the threshold, select Yes and input the new threshold.
+
+5. If you have adjusted the ROI and wish to save and process it, click Yes when prompted (if you have not modified it the prompt will not appear). If you do not want to use this new ROI, Click "No" and the corrections will be performed using the original ROI.
+
+6. Corrections are then performed. The script will warn you if you still have empty slices remaining, and then will recalculate a corrected volume and recount the objects and colocalizations in this modified stack and/or ROI, appending the original results file accordingly. The 3D ROIs of colocalizing objects will also be updated.
+7. You can compare the visualization images and repeat with the same image until satisfied, or proceed to the next one until you have reviewed all of your batch!   
 8. Additionally, you can review the 3D ROIs of colocalizing objects, and even perform measurements on them shall your analysis require it. For this, you need to load them in the 3D Manager (Plugins > 3D Suite > 3D Manager, click on Load and select the desired Coloc3DROIs.zip file). You can visualize them on the original image by opening it, opening the ROI file in the regular ROI Manager, cropping the image around this ROI, and pressing Live Roi: ON in the 3D manager. 
 
 <p align="center">
