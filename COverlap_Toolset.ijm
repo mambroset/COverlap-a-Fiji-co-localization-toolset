@@ -145,7 +145,7 @@ macro "Macro 3: Segmentation and 3D colocalization of two nuclear fluorescent ma
 	if(ask4ROIs) getROIs();
 	analyzeROIs();
 	getDateAndTime(year, month, dayOfWeek, dayOfMonth, hour, minute, second, msec);
-	File.append("End of processing: " + year + "/" + month + 1 + "/" + dayOfMonth + " Time: " + hour + ":" + minute + ":" + second, outputDirectory + File.getName(sourceDirectory) + "_DetectionParameters.txt");
+	File.append("End of processing: " + year + "/" + IJ.pad(month + 1, 2) + "/" + IJ.pad(dayOfMonth, 2) + " Time: " + IJ.pad(hour, 2) + ":" + IJ.pad(minute, 2) + ":" + IJ.pad(second, 2), outputDirectory + File.getName(sourceDirectory) + "_DetectionParameters.txt");
 	print("\\Clear");
 	print("Analysis completed!");
 	close("maxFilesList");
@@ -929,7 +929,7 @@ function countColoc(imageA, imageB, recount) {
 		Table.set(target1 + " in " + target2 + " count", Table.size-1, colocT1T2);
 		Table.set(target2 + " in " + target1 + " count", Table.size-1, colocT2T1);
 		getDateAndTime(year, month, dayOfWeek, dayOfMonth, hour, minute, second, msec);
-		Table.set("Processed the ", Table.size-1, "" + year + "/" + month + 1 + "/" + dayOfMonth + " at " + hour + ":" + minute + ":" +  second);
+		Table.set("Processed the ", Table.size-1, "" + year + "/" + IJ.pad(month + 1, 2) + "/" + IJ.pad(dayOfMonth,2) + " at " + IJ.pad(hour,2) + ":" + IJ.pad(minute, 2) + ":" +  IJ.pad(second, 2));
 	}
 	
  	if (recount) {
@@ -1463,7 +1463,7 @@ function GUIMacro3() {
 	print(detectionFile, target2 + " Gaussian: x = " + gaussianT2x + ", y = " + gaussianT2y + ", z = " + gaussianT2z);
 	print(detectionFile, target2 + " Subtract Background Radius: " + sbBackgroundT2);
 	print(detectionFile, "Watershed used on " + target2 + " : " + watershedT2 + " Radius : " + watershedRadiusT2);
-	print(detectionFile, "\rDate of processing: " + year + "/" + month + 1 + "/" + dayOfMonth + " Time: " + hour + ":" + minute + ":" + second);
+	print(detectionFile, "\rDate of processing: " + year + "/" + IJ.pad(month + 1, 2) + "/" + IJ.pad(dayOfMonth, 2) + " Time: " + IJ.pad(hour, 2) + ":" + IJ.pad(minute, 2) + ":" + IJ.pad(second, 2));
 	File.close(detectionFile);
 }
 
@@ -1878,7 +1878,7 @@ function correctVolume(pattern) {
 			Table.set("Corrected Total Area", targetRow, totalArea);
 			Table.set("Corrected Volume mm3", targetRow, volume);
 			getDateAndTime(year, month, dayOfWeek, dayOfMonth, hour, minute, second, msec);
-			Table.set("Appended the", targetRow, "" + year + "/" + month + 1 + "/" + dayOfMonth + " at " + hour + ":" + minute);
+			Table.set("Appended the", targetRow, "" + year + "/" + IJ.pad(month + 1, 2) + "/" + IJ.pad(dayOfMonth, 2) + " at " + IJ.pad(hour, 2) + ":" + IJ.pad(minute, 2));
 			Table.update; 
 		}
 	}
