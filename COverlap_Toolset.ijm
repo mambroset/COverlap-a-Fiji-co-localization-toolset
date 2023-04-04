@@ -295,6 +295,7 @@ function checkForPlugin(menuName, pluginName) {
 	
 		waitForUser("The " + pluginName + " plugin is missing.\nUse the Manage Update Sites window to install it.");
 		run("Update...");
+		exit
 	} 
 	
 	else {
@@ -325,6 +326,7 @@ function checkForImageScience() {
 	
 		waitForUser("The ImageScience plugin is missing.\nUse the Manage Update Sites window to install it.");
 		run("Update...");
+		exit
 	}
 	
 	else {
