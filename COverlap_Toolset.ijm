@@ -1032,7 +1032,15 @@ function saveColocControl(imageA, imageB, recount) {
 	roiManager("Select", 0); // OriginalROI
 	wait(1000);
 	run("Crop");
-	roiManager("Select", 2); // UpdatedROI
+	if (!recount) {
+		
+		roiManager("Select", 1); // Cropped ROI
+	}
+	
+	else {
+		
+		roiManager("Select", 2); // UpdatedROI
+	}
 	wait(1000);
 	Overlay.addSelection("red", 5);
 	
@@ -1045,7 +1053,14 @@ function saveColocControl(imageA, imageB, recount) {
 		roiManager("rename", "MIPColocs");
 		close("MIPColocOverlap");
 		selectImage(openMIP);
-		roiManager("Select", 3);
+		if (!recount) {
+			
+			roiManager("Select", 2);
+		}
+		else {
+			
+			roiManager("Select", 3);
+		}
 		run("Enlarge...", "enlarge=10");
 		roiManager("update");
 		Overlay.addSelection("red", 3);
