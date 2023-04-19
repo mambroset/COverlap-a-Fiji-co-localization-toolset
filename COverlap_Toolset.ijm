@@ -202,6 +202,7 @@ macro "Macro 4: Verification and correction of images Action Tool - N66C000D0aD0
 		Table.setLocationAndSize(screenW*0.7, screenH*0.3, screenW*0.3, screenH*0.2, tableResults);
 		print("Working on Results file: " + tableResults);
 		sampleRow = lookForRow(sampleName, tableResults);				
+		Table.setSelection(sampleRow, sampleRow, tableResults);
 		
 		// Performs corrections if wanted
 		ask4recount = getBoolean("Do you want to do any of these actions? \n-Modify the ROI \n-Reslice the stack\n-Change the overlap threshold\n-Correct the volume estimation?");
@@ -215,8 +216,7 @@ macro "Macro 4: Verification and correction of images Action Tool - N66C000D0aD0
 			reprocessStack();
 			selectWindow(tableResults);
 			Table.save(outputDirectory + tableResults);
-			Table.setSelection(sampleRow, sampleRow, tableResults);
-			
+						
 			if (stackChanged) {
 			
 				run("Tile");
