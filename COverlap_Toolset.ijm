@@ -306,6 +306,7 @@ function cleanUp() {
 	run("Set Measurements...", " decimal=9");
 	run("Options...", "iterations=1 count=1 black");
 	setOption("ExpandableArrays", true); // Enables arrays to extend automatically when elements are added to them
+	run("3D Manager Options", "volume compactness fit_ellipse maximum_grey_value centroid_(pix) centroid_(unit) objects bounding_box distance_between_centers=7 distance_max_contact=1.80 drawing=Contour use_1");
 }
 
 //------------------------------------------------------------------------------
