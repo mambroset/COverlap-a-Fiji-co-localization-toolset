@@ -167,13 +167,13 @@ This final step allows the reviewing of your analysis. On top of making sure you
 3. If you want to perform any of the proposed corrections, click on OK.
 
 <p align="center">
-	<img src="img/Step4_ListActions.png" width = 40%>
+	<img src="img/Step4_ListActions.png" width = 25%>
 </p>
 
 4. Alternatively, if you want to discard the image, click on "No" when the list of possible corrections appears. A window pops up where you can write a brief justification for discarding it, as well as an optional additional comment, that will be added to the Results file. 
 
 <p align="center">
-	<img src="img/Step4_Discard.png" width = 60%>
+	<img src="img/Step4_Discard.png" width = 50%>
 </p>
 
 5. If you have clicked on OK, the Corrections options GUI appears:
