@@ -237,22 +237,25 @@ macro "Macro 4: Verification and correction of images Action Tool - N66C000D0aD0
 				
 				Dialog.create("Fill in the field with your justification for discarding the image");
 				Dialog.addString("Discard explanation: ", "Write here", 50);
+				Dialog.addString("Optional Comment: ", "", 50);
 				Dialog.show();
 				justifDiscard = Dialog.getString();
+				optionalComment = Dialog.getString();
 				
-				Table.set("New Nb slices", sampleRow, ""); 
-				Table.set("New ROI Area", sampleRow, ""); 
-				Table.set("New ROI Volume mm3", sampleRow, "");
-				Table.set("Corrected Total Area", sampleRow, ""); 
-				Table.set("Corrected Volume mm3", sampleRow, ""); 
-				Table.set("New" + target1 + " count", sampleRow, ""); 
-				Table.set("New" + target2 + " count", sampleRow, "");
-				Table.set("New Overlap % Threshold", sampleRow, "");
-				Table.set("New " + target1 + " in " + target2 + " count", sampleRow, "");
-				Table.set("New " + target2 + " in " + target1 + " count", sampleRow, "");		
+				Table.set("New Nb slices", sampleRow, "", tableResults); 
+				Table.set("New ROI Area", sampleRow, "", tableResults); 
+				Table.set("New ROI Volume mm3", sampleRow, "", tableResults);
+				Table.set("Corrected Total Area", sampleRow, "", tableResults); 
+				Table.set("Corrected Volume mm3", sampleRow, "", tableResults); 
+				Table.set("New" + target1 + " count", sampleRow, "", tableResults); 
+				Table.set("New" + target2 + " count", sampleRow, "", tableResults);
+				Table.set("New Overlap % Threshold", sampleRow, "", tableResults);
+				Table.set("New " + target1 + " in " + target2 + " count", sampleRow, "", tableResults);
+				Table.set("New " + target2 + " in " + target1 + " count", sampleRow, "", tableResults);		
 				Table.set("Discard justification", sampleRow, justifDiscard, tableResults);
 				getDateAndTime(year, month, dayOfWeek, dayOfMonth, hour, minute, second, msec);
 				Table.set("Appended the", sampleRow, "" + year + "/" + IJ.pad(month + 1, 2) + "/" + IJ.pad(dayOfMonth, 2) + " at " + IJ.pad(hour, 2) + ":" + IJ.pad(minute, 2));
+				Table.set("Comment", sampleRow, optionalComment, tableResults);
 				Table.update;
 				selectWindow(tableResults);
 				Table.save(outputDirectory + tableResults);
