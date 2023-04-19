@@ -164,13 +164,19 @@ This final step allows the reviewing of your analysis. On top of making sure you
 	<img src="img/Step4_VerificationImages.PNG" width = 75%>	
 </p>
 
-3. If you want to perform any of the proposed corrections, click on OK. 
+3. If you want to perform any of the proposed corrections, click on OK.
 
 <p align="center">
 	<img src="img/Step4_ListActions.png" width = 40%>
 </p>
 
-4. The Corrections options GUI appears:
+4. Alternatively, if you want to discard the image, click on "No" when the list of possible corrections appears. A window pops up where you can write a brief justification for discarding it, as well as an optional additional comment, that will be added to the Results file. 
+
+<p align="center">
+	<img src="img/Step4_Discard.png" width = 40%>
+</p>
+
+5. If you have clicked on OK, the Corrections options GUI appears:
 
 <p align="center">
 	<img src="img/Step4_GUI_Corrections.png" width = 70%>
@@ -179,12 +185,15 @@ This final step allows the reviewing of your analysis. On top of making sure you
 - Make sure that you do not have anything funny looking in your ROI, and reshape it if needed (for example exclude a bubble that you missed earlier and has created a lot of segmented noise). 
 - Also check the z-stack: if the top or the bottom of the stack is devoid of any segmentation, it could mean that it was out of focus when acquired: you should exclude these empty slices thanks to the sliders in the GUI (at least two slices must be kept and the top slice number must be inferior to the bottom number). 
 - Channel 3 displays the kept colocalizations, and channel 4 displays overlapping objects that were under the overlap threshold. If you wish to change the threshold, select Yes and input the new threshold.
+- Add an optional comment if you need to record a note about this image
 
-5. If you have adjusted the ROI and wish to save and process it, click Yes when prompted (if you have not modified it the prompt will not appear). If you do not want to use this new ROI, Click "No" and the corrections will be performed using the original ROI.
+7. If you have adjusted the ROI and wish to save and process it, click Yes when prompted (if you have not modified it the prompt will not appear). If you do not want to use this new ROI, Click "No" and the corrections will be performed using the original ROI.
 
-6. Corrections are then performed. The script will warn you if you still have empty slices remaining, and then will recalculate a corrected volume and recount the objects and colocalizations in this modified stack and/or ROI, appending the original results file accordingly. The 3D ROIs of colocalizing objects will also be updated.
-7. You can compare the visualization images and repeat with the same image until satisfied, or proceed to the next one until you have reviewed all of your batch!   
-8. Additionally, you can review the 3D ROIs of colocalizing objects, and even perform measurements on them shall your analysis require it. For this, you need to load them in the 3D Manager (Plugins > 3D Suite > 3D Manager, click on Load and select the desired Coloc3DROIs.zip file). You can visualize them on the original image by opening it, opening the ROI file in the regular ROI Manager, cropping the image around this ROI, and pressing Live Roi: ON in the 3D manager. 
+8. Corrections are then performed. The script will warn you if you still have empty slices remaining, and then will recalculate a corrected volume and recount the objects and colocalizations in this modified stack and/or ROI, appending the original results file accordingly. The 3D ROIs of colocalizing objects will also be updated.
+
+9. You can compare the visualization images and repeat with the same image until satisfied, or proceed to the next one until you have reviewed all of your batch!
+
+10. Additionally, you can review the 3D ROIs of colocalizing objects, and even perform measurements on them shall your analysis require it. For this, you need to load them in the 3D Manager (Plugins > 3D Suite > 3D Manager, click on Load and select the desired Coloc3DROIs.zip file). You can visualize them on the original image by opening it, opening the ROI file in the regular ROI Manager, cropping the image around this ROI, and pressing Live Roi: ON in the 3D manager. 
 
 <p align="center">
 	<img src="img/Step4_3DROIs.png" width = 100%>
