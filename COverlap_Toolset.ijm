@@ -711,6 +711,9 @@ function segmentChannel(targetName, lowThreshold, minSize, watershed, watershedR
 	close("Bin");	
 	selectWindow("Seg");
 	getVoxelSize(width, height, depth, unit);
+	width = parseFloat(d2s(width, 4));
+	height = parseFloat(d2s(height, 4));
+	depth = parseFloat(d2s(depth, 4));
 	
 	if (watershed) {
 		
@@ -718,7 +721,7 @@ function segmentChannel(targetName, lowThreshold, minSize, watershed, watershedR
 		close("EDT");
 		close("Seg");
 		selectWindow("Split");
-		setVoxelSize(width, height, depth, unit);
+		setVoxelSize(width, height, depth, unit); 
 	}
 
 	if (excludeEdges) {
