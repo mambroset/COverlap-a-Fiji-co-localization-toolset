@@ -189,7 +189,7 @@ This final step allows the reviewing of your analysis. On top of making sure you
 
 7. If you have adjusted the ROI and wish to save and process it, click Yes when prompted (if you have not modified it the prompt will not appear). If you do not want to use this new ROI, Click "No" and the corrections will be performed using the original ROI.
 
-8. Corrections are then performed. The script will warn you if you still have empty slices remaining, and then will recalculate a corrected volume and recount the objects and colocalizations in this modified stack and/or ROI, appending the original results file accordingly. The 3D ROIs of colocalizing objects will also be updated.
+8. Corrections are then performed. The script will warn you if you still have empty slices remaining, and then will recalculate a corrected volume. If modifications of the ROI, z-stack or overlap threshold were performed, the script will also recount the objects and colocalizations in this modified stack and/or ROI, appending the original results file accordingly. The 3D ROIs of colocalizing objects will also be updated.
 
 9. You can compare the visualization images and repeat with the same image until satisfied, or proceed to the next one until you have reviewed all of your batch!
 
