@@ -162,6 +162,13 @@ macro "Macro 4: Verification and correction of images Action Tool - N66C000D0aD0
 	useNewOverlap = "No";
 	GUIMacro4();
 	
+	// Open and set location of Results table
+	print("\\Clear");
+	tableResults = getResultsFileName(outputDirectory, ".*Results\.xls$");
+	Table.open(outputDirectory + tableResults);
+	Table.setLocationAndSize(screenW*0.7, screenH*0.3, screenW*0.3, screenH*0.2, tableResults);
+	print("Working on Results file: " + tableResults);
+	
 	while (true) {
 		
 		run("Close All");
@@ -193,16 +200,10 @@ macro "Macro 4: Verification and correction of images Action Tool - N66C000D0aD0
 			}
 		}
 		
-		// Retrieves the ROI of the image and the Results file		
-		print("\\Clear");
+		// Retrieves the sample name of the image and selects the appropriate row		
 		sampleName = replace(getTitle(), "_VisualizationComposite.tif", "");
-		tableResults = getResultsFileName(outputDirectory, ".*Results\.xls$");
-		// Open and set location of Results table
-		Table.open(outputDirectory + tableResults);
-		Table.setLocationAndSize(screenW*0.7, screenH*0.3, screenW*0.3, screenH*0.2, tableResults);
-		print("Working on Results file: " + tableResults);
-		sampleRow = lookForRow(sampleName, tableResults);				
-		Table.setSelection(sampleRow, sampleRow, tableResults);
+		targetRow = lookForRow(sampleName, tableResults);				
+		Table.setSelection(targetRow, targetRow, tableResults);
 		
 		// Performs corrections if wanted
 		ask4recount = getBoolean("Do you want to do any of these actions? \n-Modify the ROI \n-Reslice the stack\n-Change the overlap threshold\n-Correct the volume estimation?");
@@ -216,6 +217,7 @@ macro "Macro 4: Verification and correction of images Action Tool - N66C000D0aD0
 			reprocessStack();
 			selectWindow(tableResults);
 			Table.save(outputDirectory + tableResults);
+			Table.setSelection(targetRow, targetRow, tableResults);
 						
 			if (stackChanged) {
 			
@@ -242,24 +244,24 @@ macro "Macro 4: Verification and correction of images Action Tool - N66C000D0aD0
 				justifDiscard = Dialog.getString();
 				optionalComment = Dialog.getString();
 				
-				Table.set("New Nb slices", sampleRow, "", tableResults); 
-				Table.set("New ROI Area", sampleRow, "", tableResults); 
-				Table.set("New ROI Volume mm3", sampleRow, "", tableResults);
-				Table.set("Corrected Total Area", sampleRow, "", tableResults); 
-				Table.set("Corrected Volume mm3", sampleRow, "", tableResults); 
-				Table.set("New" + target1 + " count", sampleRow, "", tableResults); 
-				Table.set("New" + target2 + " count", sampleRow, "", tableResults);
-				Table.set("New Overlap % Threshold", sampleRow, "", tableResults);
-				Table.set("New " + target1 + " in " + target2 + " count", sampleRow, "", tableResults);
-				Table.set("New " + target2 + " in " + target1 + " count", sampleRow, "", tableResults);		
-				Table.set("Discard justification", sampleRow, justifDiscard, tableResults);
+				Table.set("New Nb slices", targetRow, "", tableResults); 
+				Table.set("New ROI Area", targetRow, "", tableResults); 
+				Table.set("New ROI Volume mm3", targetRow, "", tableResults);
+				Table.set("Corrected Total Area", targetRow, "", tableResults); 
+				Table.set("Corrected Volume mm3", targetRow, "", tableResults); 
+				Table.set("New" + target1 + " count", targetRow, "", tableResults); 
+				Table.set("New" + target2 + " count", targetRow, "", tableResults);
+				Table.set("New Overlap % Threshold", targetRow, "", tableResults);
+				Table.set("New " + target1 + " in " + target2 + " count", targetRow, "", tableResults);
+				Table.set("New " + target2 + " in " + target1 + " count", targetRow, "", tableResults);		
+				Table.set("Discard justification", targetRow, justifDiscard, tableResults);
 				getDateAndTime(year, month, dayOfWeek, dayOfMonth, hour, minute, second, msec);
-				Table.set("Appended the", sampleRow, "" + year + "/" + IJ.pad(month + 1, 2) + "/" + IJ.pad(dayOfMonth, 2) + " at " + IJ.pad(hour, 2) + ":" + IJ.pad(minute, 2));
-				Table.set("Comment", sampleRow, optionalComment, tableResults);
+				Table.set("Appended the", targetRow, "" + year + "/" + IJ.pad(month + 1, 2) + "/" + IJ.pad(dayOfMonth, 2) + " at " + IJ.pad(hour, 2) + ":" + IJ.pad(minute, 2));
+				Table.set("Comment", targetRow, optionalComment, tableResults);
 				Table.update;
 				selectWindow(tableResults);
 				Table.save(outputDirectory + tableResults);
-				Table.setSelection(sampleRow, sampleRow, tableResults);
+				Table.setSelection(targetRow, targetRow, tableResults);
 																	
 			}
 		}
@@ -787,10 +789,6 @@ function colocOverlapAnalysis(imageA, imageB, overlapThreshold, name3Drois, reco
 	// Close overlap segmentation images
 	close("ColocOverlapTh_" + imageA);
 	close("ColocOverlapTh_" + imageB);
-
-	// Close 3D Manager
-	run("3D Manager");
-	Ext.Manager3D_Close();
 }
 
 //------------------------------------------------------------------------------
@@ -905,7 +903,6 @@ function save3DROIS(imageA, imageB, labelsImageA, labelsImageB, targetA, targetB
 	run("3D Manager");
 	Ext.Manager3D_Reset();
 	selectWindow("ColocOverlapTh_" + imageA);
-
 	Ext.Manager3D_AddImage();
 	selectWindow("ColocOverlapTh_" + imageB);
 	Ext.Manager3D_AddImage();
@@ -929,7 +926,7 @@ function save3DROIS(imageA, imageB, labelsImageA, labelsImageB, targetA, targetB
 	Ext.Manager3D_DeselectAll();
 	Ext.Manager3D_SelectAll();
 	Ext.Manager3D_Save(outputDirectory + sampleName + saveName);
-	Ext.Manager3D_Reset();
+	Ext.Manager3D_Close();
 }
 
 //------------------------------------------------------------------------------
