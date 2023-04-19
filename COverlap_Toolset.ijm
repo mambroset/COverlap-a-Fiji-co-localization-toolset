@@ -1004,7 +1004,6 @@ function countColoc(imageA, imageB, recount) {
 		Table.set("New " + target1 + " in " + target2 + " count", targetRow, colocT1T2);
 		Table.set("New " + target2 + " in " + target1 + " count", targetRow, colocT2T1);
 		Table.set("Discard justification", targetRow, ""); // placeholder
-		Table.set("Comment", targetRow, optionalComment);
 		Table.update;
  	}
 }
@@ -1904,7 +1903,6 @@ function reprocessStack() {
 		Table.set("New " + target1 + " in " + target2 + " count", targetRow, Table.get(target1 + " in " + target2 + " count", targetRow));
 		Table.set("New " + target2 + " in " + target1 + " count", targetRow, Table.get(target2 + " in " + target1 + " count", targetRow));
 		Table.set("Discard justification", targetRow, ""); // placeholder
-		Table.set("Comment", targetRow, optionalComment);
 		Table.update;
 				
 		// Perform volume correction
@@ -1998,6 +1996,7 @@ function correctVolume(pattern) {
 			Table.set("Corrected Volume mm3", targetRow, volume);
 			getDateAndTime(year, month, dayOfWeek, dayOfMonth, hour, minute, second, msec);
 			Table.set("Appended the", targetRow, "" + year + "/" + IJ.pad(month + 1, 2) + "/" + IJ.pad(dayOfMonth, 2) + " at " + IJ.pad(hour, 2) + ":" + IJ.pad(minute, 2));
+			Table.set("Comment", targetRow, optionalComment);
 			Table.update; 
 		}
 	}
