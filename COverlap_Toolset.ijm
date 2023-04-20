@@ -905,7 +905,6 @@ function save3DROIS(imageA, imageB, labelsImageA, labelsImageB, targetA, targetB
 	
 	//Send labels to 3D Manager
 	run("3D Manager");
-	Ext.Manager3D_Reset();
 	selectWindow("ColocOverlapTh_" + imageA);
 	Ext.Manager3D_AddImage();
 	selectWindow("ColocOverlapTh_" + imageB);
