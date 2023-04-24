@@ -169,6 +169,20 @@ macro "Macro 4: Verification and correction of images Action Tool - N66C000D0aD0
 	Table.setLocationAndSize(screenW*0.7, screenH*0.3, screenW*0.3, screenH*0.2, tableResults);
 	print("Working on Results file: " + tableResults);
 	
+	// Initialize 3D Manager and place it
+	run("3D Manager");
+	windowList = getList("window.titles");
+	windowListLength = lengthOf(windowList);
+   
+	for (i=0; i<windowListLength; i++) {
+		
+   		if (startsWith(windowList[i], "RoiManager3D")) {
+   			
+   			selectWindow(windowList[i]);
+   			setLocation(0, screenH*0.1);
+   		}
+	}
+		
 	while (true) {
 		
 		run("Close All");
@@ -306,7 +320,6 @@ function cleanUp() {
 	run("Set Measurements...", " decimal=9");
 	run("Options...", "iterations=1 count=1 black");
 	setOption("ExpandableArrays", true); // Enables arrays to extend automatically when elements are added to them
-	run("3D Manager Options", "volume compactness fit_ellipse maximum_grey_value centroid_(pix) centroid_(unit) objects bounding_box distance_between_centers=7 distance_max_contact=1.80 drawing=Contour use_1");
 }
 
 //------------------------------------------------------------------------------
@@ -761,7 +774,6 @@ function colocOverlapAnalysis(imageA, imageB, overlapThreshold, name3Drois, reco
 	if (labels.length > 1) {
 		
 		colocFound = true;
-		
 		// Now transform a "fake double array" into two arrays corresponding to
 		// the overlapping labels exceeding the desired % of overlap threshold:
 		labelsString = String.join(labels);
@@ -904,7 +916,7 @@ function save3DROIS(imageA, imageB, labelsImageA, labelsImageB, targetA, targetB
 // 	Saves 3D ROIs 
 	
 	//Send labels to 3D Manager
-	run("3D Manager");
+	
 	selectWindow("ColocOverlapTh_" + imageA);
 	Ext.Manager3D_AddImage();
 	selectWindow("ColocOverlapTh_" + imageB);
@@ -929,7 +941,8 @@ function save3DROIS(imageA, imageB, labelsImageA, labelsImageB, targetA, targetB
 	Ext.Manager3D_DeselectAll();
 	Ext.Manager3D_SelectAll();
 	Ext.Manager3D_Save(outputDirectory + sampleName + saveName);
-	Ext.Manager3D_Close();
+	Ext.Manager3D_Reset();
+	//Ext.Manager3D_Close();
 }
 
 //------------------------------------------------------------------------------
@@ -1025,7 +1038,7 @@ function saveColocControl(imageA, imageB, recount) {
 	}
 	
 	if (colocFound) {
-
+		
 		// Make an Overlap image from the two Overlap binary images
 		imageCalculator("AND create stack", "ColocOverlapTh_" + imageA, "ColocOverlapTh_" + imageB);
 		rename("ColocOverlap");
@@ -1100,6 +1113,7 @@ function saveColocControl(imageA, imageB, recount) {
 	if (colocFound) {
 
 		selectImage("MIPColocOverlap");
+		wait(1000);
 		run("Create Selection");
 		roiManager("add"); 
 		roiManager("select", roiManager("count")-1);
@@ -1137,8 +1151,11 @@ function makeBin(segImage) {
 // Transforms a label image into a binary image
 	
 	selectImage(segImage);
-	run("8-bit");
-	setThreshold(1, 255);
+	if (bitDepth() == 24) {
+		run("8-bit");
+	}
+	Stack.getStatistics(voxelCount, mean, min, max, stdDev);
+	setThreshold(1, max);
 	run("Make Binary", "background=Dark black");
 	run("Original Scale");
 }
@@ -1772,6 +1789,7 @@ function reprocessStack() {
 	
 	do {
 		Dialog.createNonBlocking("Corrections options");
+		Dialog.setLocation(screenW*0.65, screenH*0.3);
 		Dialog.addMessage("Check the ROI and modify it if needed");
 		Dialog.addMessage("Check the z-stack for empty slices, and reslice if you want to remove top/bottom slices");
 		Dialog.addSlider("Top slice: ", 1, slices, 1);
@@ -1874,6 +1892,7 @@ function reprocessStack() {
 	
 		// Perform volume correction	
 		selectImage(sampleName + "_VisualizationComposite_Adjusted.tif");
+		wait(1000);
 		run("RGB Color", "slices keep");
 		rename("RGB");
 		correctVolume("RGB");
@@ -1912,7 +1931,7 @@ function reprocessStack() {
 		correctVolume("RGB");
 		close("RGB");				
 	}
-			
+				
 	setBatchMode("exit and display");
 }
 
