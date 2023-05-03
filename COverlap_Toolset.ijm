@@ -268,6 +268,9 @@ macro "Macro 4: Verification and correction of images Action Tool - N66C000D0aD0
 				Table.set("New Overlap % Threshold", targetRow, "", tableResults);
 				Table.set("New " + target1 + " in " + target2 + " count", targetRow, "", tableResults);
 				Table.set("New " + target2 + " in " + target1 + " count", targetRow, "", tableResults);		
+				Table.set("Resliced?", targetRow, "");
+				Table.set("ROI changed?", targetRow, "");
+				Table.set("OverlapThr changed?", targetRow, "");			
 				Table.set("Discard justification", targetRow, justifDiscard, tableResults);
 				getDateAndTime(year, month, dayOfWeek, dayOfMonth, hour, minute, second, msec);
 				Table.set("Appended the", targetRow, "" + year + "/" + IJ.pad(month + 1, 2) + "/" + IJ.pad(dayOfMonth, 2) + " at " + IJ.pad(hour, 2) + ":" + IJ.pad(minute, 2));
@@ -1016,6 +1019,15 @@ function countColoc(imageA, imageB, recount) {
 		Table.set("New Overlap % Threshold", targetRow, newOverlapThr);
 		Table.set("New " + target1 + " in " + target2 + " count", targetRow, colocT1T2);
 		Table.set("New " + target2 + " in " + target1 + " count", targetRow, colocT2T1);
+		// Adding convenient checks here for what has been modified, comment them out if not interested
+		///*
+		Table.set("Resliced?", targetRow, reSlice);
+		Table.set("ROI changed?", targetRow, askSaveNewRoi);
+		if (useNewOverlap == "No") 
+			Table.set("OverlapThr changed?", targetRow, 0);
+		else 
+			Table.set("OverlapThr changed?", targetRow, 1);
+		// */
 		Table.set("Discard justification", targetRow, ""); // placeholder
 		Table.update;
  	}
@@ -1921,6 +1933,12 @@ function reprocessStack() {
 		Table.set("New Overlap % Threshold", targetRow, newOverlapThr);
 		Table.set("New " + target1 + " in " + target2 + " count", targetRow, Table.get(target1 + " in " + target2 + " count", targetRow));
 		Table.set("New " + target2 + " in " + target1 + " count", targetRow, Table.get(target2 + " in " + target1 + " count", targetRow));
+		// Adding convenient checks here for what has been modified, comment them out if not interested
+		///*
+		Table.set("Resliced?", targetRow, reSlice);
+		Table.set("ROI changed?", targetRow, askSaveNewRoi);
+		Table.set("OverlapThr changed?", targetRow, 0);
+		// */
 		Table.set("Discard justification", targetRow, ""); // placeholder
 		Table.update;
 				
