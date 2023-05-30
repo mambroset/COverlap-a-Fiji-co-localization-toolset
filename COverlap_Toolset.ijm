@@ -89,6 +89,7 @@ macro "Macro 2: Testing of parameters for nuclear markers segmentation Action To
 		
 		imageList = getList("image.titles"); 
 		
+		// If it is a new parameters test on already open channels:
 		if ((imageList.length != 0) && (roiManager("count") > 0)) {
 			
 			ask4ROIs = false;
@@ -102,16 +103,25 @@ macro "Macro 2: Testing of parameters for nuclear markers segmentation Action To
 					close();
 				}
 			}
+			
+			channelImageList = getList("image.titles");
+			if (channelImageList.length == 2) { // Additional check that one of the channels hasn't been closed
 				
-			getSegmentationParameters();
-			ask4ROIs = false; // Overrides if the user has inadvertently checked the box
-			analyzeTestROI();
+				getSegmentationParameters();
+				ask4ROIs = false; // Overrides if the user has inadvertently checked the box
+				analyzeTestROI();
+			}
+			else {
+				
+				close("*"); // In case only one channel remains open
+			}
 		}
-		
+		// Else if we test parameters on a new image or ROI:
 		else {
 			
-			while (imageList.length == 0) {
+			while (imageList.length != 1) {
 				
+				close("*"); // In case several MIPs were open
 				waitForUser("Open an MIP image you want to work on (double click in the list), then click OK to start \nIf you are done, click on Cancel");
 				imageList = getList("image.titles"); 
 			}
@@ -144,12 +154,17 @@ macro "Macro 3: Segmentation and 3D colocalization of two nuclear fluorescent ma
 	cleanUp();
 	GUIMacro3();
 	if(ask4ROIs) getROIs();
+	wait(1000);
+	// Initialize 3D Manager
+	run("3D Manager");
 	analyzeROIs();
 	getDateAndTime(year, month, dayOfWeek, dayOfMonth, hour, minute, second, msec);
 	File.append("End of processing: " + year + "/" + IJ.pad(month + 1, 2) + "/" + IJ.pad(dayOfMonth, 2) + " Time: " + IJ.pad(hour, 2) + ":" + IJ.pad(minute, 2) + ":" + IJ.pad(second, 2), outputDirectory + File.getName(sourceDirectory) + "_DetectionParameters.txt");
 	print("\\Clear");
 	print("Analysis completed!");
 	close("maxFilesList");
+	run("3D Manager");
+	Ext.Manager3D_Close();
 	beep();
 }
 
@@ -269,6 +284,7 @@ macro "Macro 4: Verification and correction of images Action Tool - N66C000D0aD0
 				Table.set("New " + target1 + " in " + target2 + " count", targetRow, "", tableResults);
 				Table.set("New " + target2 + " in " + target1 + " count", targetRow, "", tableResults);		
 				Table.set("Resliced?", targetRow, "");
+				Table.set("New stack", targetRow, "");
 				Table.set("ROI changed?", targetRow, "");
 				Table.set("OverlapThr changed?", targetRow, "");			
 				Table.set("Discard justification", targetRow, justifDiscard, tableResults);
@@ -426,7 +442,7 @@ function getFilesList(dir, lookingForList) {
 				
 				if (matches(list[i], lookingForList[j])) { // if the file name contains what we are lookingFor, adds it to the array	
 					
-					fileList[fileList.length] = replace(dir + list[i], "/", "\\");
+					fileList[fileList.length] = replace(dir + list[i], "\\", "/");
 				}
 			}
 		}
@@ -818,9 +834,15 @@ function getColocLabels(imageA, imageB, overlapThreshold) {
 // % of overlap meets or exceeds the chosen threshold.
 
 	labels = newArray("X");
-	
+
 	// Objects of image A having overlapping objects of image B:
 	run("3D MultiColoc", "image_a=" + imageA + " image_b=" + imageB + "");
+		
+	// If imageA is empty, output an empty table
+	if (!isOpen("Colocalisation")){
+		Table.create("Colocalisation");
+	}
+	
 	selectWindow("Colocalisation");
 	Table.rename("Colocalisation", "Colocalisation" + imageA);
 	Table.setLocationAndSize(screenW*0.25, 0, screenW*0.15, screenH*0.20, "Colocalisation" + imageA);		
@@ -852,6 +874,12 @@ function getColocLabels(imageA, imageB, overlapThreshold) {
 	
 	// Objects of image B having overlapping objects of image A:
 	run("3D MultiColoc", "image_a=" + imageB + " image_b=" + imageA + "");
+	
+	// If imageB is empty, output an empty table
+	if (!isOpen("Colocalisation")){
+		Table.create("Colocalisation");
+	}
+	
 	selectWindow("Colocalisation");
 	Table.rename("Colocalisation", "Colocalisation" + imageB);
 	Table.setLocationAndSize(screenW*0.40, 0, screenW*0.15, screenH*0.20, "Colocalisation" + imageB);					
@@ -1020,14 +1048,16 @@ function countColoc(imageA, imageB, recount) {
 		Table.set("New " + target1 + " in " + target2 + " count", targetRow, colocT1T2);
 		Table.set("New " + target2 + " in " + target1 + " count", targetRow, colocT2T1);
 		// Adding convenient checks here for what has been modified, comment them out if not interested
-		///*
 		Table.set("Resliced?", targetRow, reSlice);
+		if (reSlice)
+			Table.set("New stack", targetRow, "" + fromSlice + "-" + toSlice);
+		
 		Table.set("ROI changed?", targetRow, askSaveNewRoi);
 		if (useNewOverlap == "No") 
 			Table.set("OverlapThr changed?", targetRow, 0);
 		else 
 			Table.set("OverlapThr changed?", targetRow, 1);
-		// */
+
 		Table.set("Discard justification", targetRow, ""); // placeholder
 		Table.update;
  	}
@@ -1235,7 +1265,7 @@ function maxIntensityProjection() {
 		setBatchMode(true);
 		
 		// Opens image number i and pauses until it is actually open
-		run("Bio-Formats Importer", "open=[" + imageFilesList[i] + "] autoscale color_mode=Default rois_import=[ROI manager] view=Hyperstack stack_order=XYCZT");
+		run("Bio-Formats Importer", "open=[" + replace(imageFilesList[i], "/","\\") + "] autoscale color_mode=Default rois_import=[ROI manager] view=Hyperstack stack_order=XYCZT");
 		
 		while (nImages==0) {
 			
@@ -1331,7 +1361,7 @@ function analyzeTestROI() {
 			
 			if (matches(imageFilesList[i], ".*" + sampleName + ".*")) {
 				
-				run("Bio-Formats Importer", "open=[" + imageFilesList[i] + "] autoscale color_mode=Default rois_import=[ROI manager] view=Hyperstack stack_order=XYCZT");
+				run("Bio-Formats Importer", "open=[" + replace(imageFilesList[i], "/","\\") + "] autoscale color_mode=Default rois_import=[ROI manager] view=Hyperstack stack_order=XYCZT");
 				oriName = getTitle();
 				rename("OriginalImage");
 				
@@ -1408,16 +1438,19 @@ function analyzeTestROI() {
 //------------------------------------------------------------------------------
 function makeVisualization(channelName, targetName) {
 // Creates an image allowing the visualisation of the segmented objects for each 
-// channel, outlined in yellow on the original image displayed with a red LUT. 
+// channel, outlined on the original and filtered images. 
 	
+	selectWindow(sampleName + "_Seg" + targetName);
+	run("Label Boundaries"); // Gives 8-bit mask
+	selectWindow("3D_Median");
+	run("Merge Channels...", "c4=3D_Median c5=" + sampleName + "_Seg" + targetName + "-bnd create");
+	rename(sampleName + "_Filtered_" + targetName);
+		
 	selectWindow(sampleName + "_Seg" + targetName);
 	run("Label Boundaries"); // Gives 8-bit mask
 	run("Merge Channels...", "c1=" + channelName + " c2=" + sampleName + "_Seg" + targetName + "-bnd" + " create");
 	rename(targetName + "_Visualization");
-	roiManager("Select", 1);	
-	
-	selectWindow("3D_Median");
-	rename(sampleName + "_Filtered_" + targetName);
+	roiManager("Select", 1);
 }
 
 //------------------------------------------------------------------------------
@@ -1621,9 +1654,11 @@ function analyzeROIs() {
 		
 		maxName = File.getName(maxFilesList[i]);
 		sampleName = substring(maxName, 4, lengthOf(maxName)-4);
+		roiAdjusted = false;
 		if (File.exists(outputDirectory + sampleName + "_ROIAdjusted.zip")) {
 			
 			roiFile = outputDirectory + sampleName + "_ROIAdjusted.zip";
+			roiAdjusted = true;
 		}
 		
 		else {
@@ -1633,12 +1668,12 @@ function analyzeROIs() {
 		
 		if(File.exists(roiFile)) { // If ROI .zip file exists, opens the corresponding image and the ROI
 
-			run("Bio-Formats Importer", "open=[" + imageFilesList[i] + "] autoscale color_mode=Default rois_import=[ROI manager] view=Hyperstack stack_order=XYCZT");
+			run("Bio-Formats Importer", "open=[" + replace(imageFilesList[i], "/","\\") + "] autoscale color_mode=Default rois_import=[ROI manager] view=Hyperstack stack_order=XYCZT");
 			oriName = getTitle();
 			rename("OriginalImage");
 			Stack.getDimensions(width, height, channels, slices, frames); // Need "slices"
 			
-			roiManager("Open", outputDirectory + sampleName + "_ROI.zip"); // Opens the ROI .zip file
+			roiManager("Open", outputDirectory + sampleName + "_ROI.zip"); // Opens the original ROI .zip file
 			parentDirectory = File.getParent(imageFilesList[i]);
 			roiManager("select", 0);
 			getStatistics(area, mean, min, max, std, histogram); 
@@ -1656,9 +1691,19 @@ function analyzeROIs() {
 			close("OriginalImage");
 				
 			selectWindow(channel1 + "_Original");
-			normalizeAndCrop();
-			roiManager("Add"); // Becomes ROI 1
+			normalizeAndCrop(); // Crops around OG ROI
 			
+			if (roiAdjusted) {
+
+				roiManager("Open", roiFile); // Opens Adjusted ROI
+				roiManager("select", 1);
+			}
+			
+			else {
+
+				roiManager("Add"); // Becomes ROI 1
+			}
+						
 			filterChannel(medT1x, medT1y, medT1z, gaussianT1x, gaussianT1y, gaussianT1z, sbBackgroundT1);
 
 			if (indexOf(sampleName, region1) >=0) {
@@ -1674,8 +1719,7 @@ function analyzeROIs() {
 			close("3D_Median*");
 			
 			selectWindow(channel2 + "_Original");
-			normalizeAndCrop();
-			
+			normalizeAndCrop(); // Crops around OG ROI			
 			filterChannel(medT2x, medT2y, medT2z, gaussianT2x, gaussianT2y, gaussianT2z, sbBackgroundT2);
 			
 			if (indexOf(sampleName, region1) >=0) {
@@ -1788,13 +1832,23 @@ function reprocessStack() {
 	// Opens corresponding ROI 
 	selectImage(imageList[0]);
 	roiFile = outputDirectory + sampleName + "_ROI.zip";
-	roiManager("Open", roiFile); // Opens the ROI .zip file
+	roiManager("Open", roiFile); // Opens the OG ROI .zip file
 	roiManager("Select", 0);
 	roiManager("rename", "OriginalROI");
-	setSelectionLocation(0, 0); 
-	roiManager("add");
-	roiManager("select", roiManager("count")-1);
-	roiManager("rename", "OriginalROIcrop");
+	if (!File.exists(outputDirectory + sampleName + "_ROIAdjusted.zip")) {
+		
+		setSelectionLocation(0, 0); 
+		roiManager("add");
+		roiManager("select", roiManager("count")-1);
+		roiManager("rename", "OriginalROIcrop");
+	}
+	else {
+	
+		roiManager("Open", outputDirectory + sampleName + "_ROIAdjusted.zip"); // Opens the Adjusted ROI .zip file
+		roiManager("select", roiManager("count")-1);
+		roiManager("rename", "OriginalUpdatedROI");
+	}
+	
 	getSelectionCoordinates(oriX, oriY);
 	
 	// Show GUI for corrections parameters
@@ -1936,6 +1990,7 @@ function reprocessStack() {
 		// Adding convenient checks here for what has been modified, comment them out if not interested
 		///*
 		Table.set("Resliced?", targetRow, reSlice);
+		Table.set("New stack", targetRow, "");
 		Table.set("ROI changed?", targetRow, askSaveNewRoi);
 		Table.set("OverlapThr changed?", targetRow, 0);
 		// */
