@@ -1769,15 +1769,19 @@ function GUIMacro4() {
 	Table.setSelection(-1, -1);
 	
 	// Loads Test Parameters if any are saved
-	getSavedParameters(sourceDirectory + "Test_Parameters.txt");
+	getSavedParameters(outputDirectory + "Test_Parameters.txt");
 	
 	Dialog.create("Specify target names, channels and the % overlap threshold used for the analysis");
 	Dialog.addString("Target 1", target1);
 	Dialog.addToSameRow();
 	Dialog.addString("Channel", channel1);
+	Dialog.addToSameRow();
+	Dialog.addNumber("min Size", minSizeT1, 0, 3, "px");
 	Dialog.addString("Target 2", target2);
 	Dialog.addToSameRow();
 	Dialog.addString("Channel", channel2);
+	Dialog.addToSameRow();
+	Dialog.addNumber("min Size", minSizeT2, 0, 3, "px");
 	Dialog.addNumber("Original Overlap Threshold: ", overlapThr, 0, 3, "%");
 	Dialog.addCheckbox("Save parameters", false);
 	
@@ -1785,8 +1789,10 @@ function GUIMacro4() {
 	
 	target1 = Dialog.getString();
 	channel1 = Dialog.getString();
+	minSizeT1 = Dialog.getNumber();
 	target2 = Dialog.getString();
 	channel2 = Dialog.getString();
+	minSizeT2 = Dialog.getNumber();
 	overlapThr = Dialog.getNumber();
 	saveTargets = Dialog.getCheckbox();
 
@@ -1945,8 +1951,8 @@ function reprocessStack() {
 		// Make new segmentation images
 		close("C3*");
 		close("C4*");
-		makeSeg("^" + channel1 + ".*", target2);
-		makeSeg("^" + channel2 + ".*", target1);
+		makeSeg("^" + channel1 + ".*", target2, minSizeT2);
+		makeSeg("^" + channel2 + ".*", target1, minSizeT1);
 		roiManager("Select", 2); // UpdatedROI
 		Stack.getDimensions(width, height, channels, slices, frames);
 		getStatistics(area, mean, min, max, std, histogram);
@@ -2009,7 +2015,7 @@ function reprocessStack() {
 }
 
 //------------------------------------------------------------------------------
-function makeSeg(pattern, channelName) {
+function makeSeg(pattern, channelName, minSize) {
 // Makes new label images based on the (possibly new) ROI in the ROI 
 // manager and the possibly resliced stack
 	
@@ -2023,7 +2029,7 @@ function makeSeg(pattern, channelName) {
 			wait(1000);
 			setBackgroundColor(0, 0, 0);
 			run("Clear Outside", "stack");	
-			run("3D Simple Segmentation", "low_threshold=1 min_size=0 max_size=-1");
+			run("3D Simple Segmentation", "low_threshold=1 min_size=" + minSize + " max_size=-1");
 			close(imageList[i]);
 			close("Bin*");
 			selectImage("Seg");
