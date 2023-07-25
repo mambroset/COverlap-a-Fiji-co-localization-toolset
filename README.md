@@ -1,12 +1,12 @@
-# COverlap: a FIJI colocalization toolset
-This 4 steps FIJI/ImageJ toolset is intended for the 3D colocalization of two nuclear markers. It has been tested on multichannel tiled Z-stack images acquired with a Spinning Disk confocal microscope.
+# COverlap: a FIJI co-localization toolset
+This 4 steps FIJI/ImageJ toolset is intended for the 3D co-localization of two nuclear markers. It has been tested on multichannel tiled Z-stack images acquired with a Spinning Disk confocal microscope.
 
 ## Brief description of the 4 steps
 
 1. A preliminary creation of Maximum Intensity Projection (MIPs) for each image.
 2. A testing step which allows to test the workflow on small portions of images in order to select the best parameters for filtering, background subtraction and thresholding for a given batch.
-3. The manual drawing of ROIs for all images in the batch followed by the automatic segmentation and 3D colocalization of the 2 nuclear markers.
-4. A reviewing step, where results and segmentations/colocalization masks can be verified, and corrections applied if needed (ROI adjustment, z-stack reslicing, volume estimation correction), with appropriate documentation of any such correction.
+3. The manual drawing of ROIs for all images in the batch followed by the automatic segmentation and 3D co-localization of the 2 nuclear markers.
+4. A reviewing step, where results and segmentations/co-localization masks can be verified, and corrections applied if needed (ROI adjustment, z-stack reslicing, volume estimation correction), with appropriate documentation of any such correction.
 
 ## Installation
 1. If not already done, download and install FIJI/ImageJ from https://imagej.net/software/fiji/downloads , following instructions
@@ -88,10 +88,10 @@ This step allows to test for filtering, background subtraction and thresholding 
 
 3. Double click on the desired path in the maxFilesList table to open the MIP of the image you wish to test your parameters on. Click on OK.
 4. In the GUI, fill in the various parameters.
-	- The minimum Overlap for Colocalization % will be ignored in this step and used during Macro 3. It corresponds to a minimum percentage (in pixels) of an object that needs to be overlapping in the other object for the pair to be considered as colocalized.
+	- The minimum Overlap for co-localization % will be ignored in this step and used during Macro 3. It corresponds to a minimum percentage (in pixels) of an object that needs to be overlapping in the other object for the pair to be considered as colocalized.
 	- Setting a filtering parameter (Median, Gaussian or Background Subtraction Radius) to "0" will have the macro skip this particular filtering step.
 	- To be effective, the watershed radius should be around the same size as the radius of your objects.
-	- For the tests to run faster, we advise to not select the "Exclude objects on edges" option during this step (it is mostly useful during Step 3 to avoid spurious colocalization events for objects that are only partially included in the ROI). 
+	- For the tests to run faster, we advise to not select the "Exclude objects on edges" option during this step (it is mostly useful during Step 3 to avoid spurious co-localization events for objects that are only partially included in the ROI). 
 	- The first time around, the Ask for ROIs box is checked: you will have to draw a small ROI to perform your testing on. 
 	- Checking the Save Parameters box will save those parameters and pre-fill the GUI the next time it pops up. Click OK when you have filled all parameters.
 
@@ -109,7 +109,7 @@ This step allows to test for filtering, background subtraction and thresholding 
 7. If you wish to test different parameters on the same sample and ROI, click on OK and input new parameters, while leaving Ask for ROIs unckecked. Else, if you wish to analyze a different image or a different ROI, close all images (Maj + W) before clicking on OK, and double-click in the maxFilesList on the image you wish to work on.	
 8. Repeat until satisfied, and do not forget to save your parameters if you want to save time in the next step!	
 
-### Macro 3: Segmentation and 3D colocalization of two nuclear fluorescent markers
+### Macro 3: Segmentation and 3D co-localization of two nuclear fluorescent markers
 This step allows the user to sequentially draw and store one ROI per image to analyze (or reads previously stored ROIs) and then proceeds to the actual analysis for the entire batch of images. 
 1. Indicate your version of the Images and Results folders, check the targets, channels and regions parameters.
 2. Check your segmentation parameters. If you have saved some before, those will be the ones displayed. You can save new ones (bear in mind that the previous ones will be replaced if you do so). When you start the analysis, all of the detection parameters used for the batch will be saved in your Results folder, as a YourImagesFolder_DetectionParameters.txt file. 
@@ -131,8 +131,8 @@ This step allows the user to sequentially draw and store one ROI per image to an
 5. Each time one image is processed, files are added to your Results folder:
 	- the appended Results table is saved as a YourImagesFolder_Results.xls file,
 	- two types of verification images or each sample analyzed are created:
-		- one YourSample_VisualizationMIP.jpg displaying the location of the ROI in red, as well as red circles around colocalization events,
-		- one YourSample_VisualizationComposite.tif image, a z-stack with 3 binary channels: two (red and green) for your marker segmentations and one (blue) for the colocalization events (so that any colocalization that has been detected by the script will be conveniently shown in white through the superposition of the 3 channels, see step 4 illustration).
+		- one YourSample_VisualizationMIP.jpg displaying the location of the ROI in red, as well as red circles around co-localization events,
+		- one YourSample_VisualizationComposite.tif image, a z-stack with 3 binary channels: two (red and green) for your marker segmentations and one (blue) for the co-localization events (so that any co-localization that has been detected by the script will be conveniently shown in white through the superposition of the 3 channels, see step 4 illustration).
 	-  a set of 3D ROIs of colocalizing objects is also saved (see step 4).
 	
 6. When all images are analyzed, the log window displays an "Analysis completed!" message and the YourImagesFolder_DetectionParameters.txt file is appended with the date and time of the end of the analysis.   
@@ -147,12 +147,12 @@ This step allows the user to sequentially draw and store one ROI per image to an
 |  <ul><li> Apply 3D Median (Plugins > 3D Suite > Filters > 3D Fast Filters)</li><li> Apply 3D Gaussian blur (Process > Filters > Gaussian Blur 3D)</li><li> Apply background subtraction (Process > Subtract Background, smoothing disabled) on the whole stack </li></ul> |
 |  - Segment channel: |
 |  <ul><li> Apply 3D Simple Segmentation to generate a labeled image (Plugins > 3D Suite > Segmentation > 3D Simple Segmentation)</li><li>(Optional) Apply watershed (Plugins > 3D Suite > Segmentation > 3D Watershed Split)</li><li> (Optional) Exclude objects touching the ROI border </li></ul> |
-| Colocalization analysis on the two segmented channels: |
-|  - Perform object-based colocalization analysis on the two labeled images (Plugins > 3D Suite > Relationship > 3D MultiColoc), and retrieve pairs of objects for which at least one of the two objects meets the required % of overlap threshold |
+| Co-localization analysis on the two segmented channels: |
+|  - Perform object-based co-localization analysis on the two labeled images (Plugins > 3D Suite > Relationship > 3D MultiColoc), and retrieve pairs of objects for which at least one of the two objects meets the required % of overlap threshold |
 
 ### Macro 4: Verification and correction of images
-This final step allows the reviewing of your analysis. On top of making sure your parameters selection allowed the proper detection of your features of interest, you can perform corrections such as ROI reshaping (to exlude previously missed bubbles for example), or reslicing of the z-stack (to exlclude out-of-focus stack extremities for example). You can also review colocalization and compare kept and excluded events according to the threshold, and change it if necessary. Another interesting feature is the volume recalculation (see Box 2 with illustration).
-1. Indicate your version of the Images and Results folders and check the targets, channels and colocalization overlap % parameters.
+This final step allows the reviewing of your analysis. On top of making sure your parameters selection allowed the proper detection of your features of interest, you can perform corrections such as ROI reshaping (to exlude previously missed bubbles for example), or reslicing of the z-stack (to exlclude out-of-focus stack extremities for example). You can also review co-localization and compare kept and excluded events according to the threshold, and change it if necessary. Another interesting feature is the volume recalculation (see Box 2 with illustration).
+1. Indicate your version of the Images and Results folders and check the targets, channels and co-localization overlap % parameters.
 
 <p align="center">
 	<img src="img/Step4_GUI.PNG" width = 40%>
@@ -184,12 +184,12 @@ This final step allows the reviewing of your analysis. On top of making sure you
 
 - Make sure that you do not have anything funny looking in your ROI, and reshape it if needed (for example exclude a bubble that you missed earlier and has created a lot of segmented noise). 
 - Also check the z-stack: if the top or the bottom of the stack is devoid of any segmentation, it could mean that it was out of focus when acquired: you should exclude these empty slices thanks to the sliders in the GUI (at least two slices must be kept and the top slice number must be inferior to the bottom number). 
-- Channel 3 displays the kept colocalizations, and channel 4 displays overlapping objects that were under the overlap threshold. If you wish to change the threshold, select Yes and input the new threshold.
+- Channel 3 displays the kept co-localizations, and channel 4 displays overlapping objects that were under the overlap threshold. If you wish to change the threshold, select Yes and input the new threshold.
 - Add an optional comment if you need to record a note about this image
 
 7. If you have adjusted the ROI and wish to save and process it, click Yes when prompted (if you have not modified it the prompt will not appear). If you do not want to use this new ROI, Click "No" and the corrections will be performed using the original ROI.
 
-8. Corrections are then performed. The script will warn you if you still have empty slices remaining, and then will recalculate a corrected volume. If modifications of the ROI, z-stack or overlap threshold were performed, the script will also recount the objects and colocalizations in this modified stack and/or ROI, appending the original results file accordingly. The 3D ROIs of colocalizing objects will also be updated.
+8. Corrections are then performed. The script will warn you if you still have empty slices remaining, and then will recalculate a corrected volume. If modifications of the ROI, z-stack or overlap threshold were performed, the script will also recount the objects and co-localizations in this modified stack and/or ROI, appending the original results file accordingly. The 3D ROIs of colocalizing objects will also be updated.
 
 9. You can compare the visualization images and repeat with the same image until satisfied, or proceed to the next one until you have reviewed all of your batch!
 
