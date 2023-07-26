@@ -9,12 +9,20 @@ This 4 steps Fiji/ImageJ toolset is intended for the 3D co-localization of two n
 4. A reviewing step, where results and segmentations/co-localization masks can be verified, and corrections applied if needed (ROI adjustment, z-stack reslicing, volume estimation correction), with appropriate documentation of any such correction.
 
 ## Installation
-1. If not already done, download and install Fiji/ImageJ from https://imagej.net/software/Fiji/downloads , following instructions
-2. Download the [.ijm toolset file](/COverlap_Toolset.ijm)
-3. Locate your ImageJ or Fiji folder
-4. Put the .ijm toolset file in the Fiji.app > macros > toolsets folder
-5. Open ImageJ/Fiji, click on the red double arrow (>>) right of the tools and select the COverlap toolset
-6. The 1, 2, 3 and 4 icons appear, you're all set!
+1. If not already done, download and install Fiji/ImageJ from https://imagej.net/software/Fiji/downloads, following instructions
+2. The plugins ImageScience, 3D ImageJ Suite and MorpholibJ need to be installed for the toolset to work. If they are not already, you need to run Help > Update, click on Manage update sites and check the boxes for 
+	- the Image Science,
+	- the 3D ImageJ Suite,
+	- the Java8,
+	- and the IJPB-plugins update sites. 
+	
+	Apply changes and restart ImageJ.
+
+3. Download the [.ijm toolset file](/COverlap_Toolset.ijm)
+4. Locate your ImageJ or Fiji folder
+5. Put the .ijm toolset file in the Fiji.app > macros > toolsets folder
+6. Open ImageJ/Fiji, click on the red double arrow (>>) right of the tools and select the COverlap toolset
+7. The 1, 2, 3 and 4 icons appear, you're all set!
 
 <p align="center">			
 	<img src="img/Icons.PNG" width=75%>
@@ -56,13 +64,6 @@ Prerequisites:
 					- Sample1Region1.tif
 					- Sample1Region2.tif
 					- Sample2Region1.tif
-
-4. Plugins and update sites:
-   - The plugins ImageScience, 3D ImageJ Suite and MorpholibJ need to be installed for the toolset to work. If they are not already, you need to run Help > Update, click on Manage update sites and check the boxes for 
-	   - the Image Science,
-	   - the 3D ImageJ Suite,
-	   - and the IJPB-plugins update sites. 
-   - Apply changes and restart ImageJ.
 
 ## Description of each step:
 
