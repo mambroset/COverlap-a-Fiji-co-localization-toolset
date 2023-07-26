@@ -1,5 +1,5 @@
-# COverlap: a FIJI co-localization toolset
-This 4 steps FIJI/ImageJ toolset is intended for the 3D co-localization of two nuclear markers. It has been tested on multichannel tiled Z-stack images acquired with a Spinning Disk confocal microscope.
+# COverlap: a Fiji co-localization toolset
+This 4 steps Fiji/ImageJ toolset is intended for the 3D co-localization of two nuclear markers. It has been tested on multichannel tiled Z-stack images acquired with a Spinning Disk confocal microscope.
 
 ## Brief description of the 4 steps
 
@@ -9,11 +9,11 @@ This 4 steps FIJI/ImageJ toolset is intended for the 3D co-localization of two n
 4. A reviewing step, where results and segmentations/co-localization masks can be verified, and corrections applied if needed (ROI adjustment, z-stack reslicing, volume estimation correction), with appropriate documentation of any such correction.
 
 ## Installation
-1. If not already done, download and install FIJI/ImageJ from https://imagej.net/software/fiji/downloads , following instructions
+1. If not already done, download and install Fiji/ImageJ from https://imagej.net/software/Fiji/downloads , following instructions
 2. Download the [.ijm toolset file](/COverlap_Toolset.ijm)
-3. Locate your ImageJ or FIJI folder
+3. Locate your ImageJ or Fiji folder
 4. Put the .ijm toolset file in the Fiji.app > macros > toolsets folder
-5. Open ImageJ/FIJI, click on the red double arrow (>>) right of the tools and select the COverlap toolset
+5. Open ImageJ/Fiji, click on the red double arrow (>>) right of the tools and select the COverlap toolset
 6. The 1, 2, 3 and 4 icons appear, you're all set!
 
 <p align="center">			
