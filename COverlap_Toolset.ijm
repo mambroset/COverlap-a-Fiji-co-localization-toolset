@@ -11,6 +11,7 @@ var outputDirectory;
 var imageFilesList;
 var maxFilesList;
 
+var folderOrganization = "One subfolder per image";
 var makeComposite = true;
 var luts;
 var target1 = "ERG";
@@ -1214,6 +1215,7 @@ function GUIMacro1() {
 	lutChoice = newArray("Yellow", "Magenta", "Cyan", "Green", "Red", "Blue", "Grays", "None");
 	
 	Dialog.create("Parameters");
+	Dialog.addRadioButtonGroup("How are your image files organized?", newArray("One subfolder per image", "One folder for all images"), 1, 2, folderOrganization); 
 	Dialog.addMessage("Specify the files to look for");
 	Dialog.addString("File name", "Scan1");
 	Dialog.addToSameRow();
@@ -1227,6 +1229,7 @@ function GUIMacro1() {
 	Dialog.addCheckbox("Uncheck if you do not want channels to be displayed as a composite", makeComposite);
 	Dialog.show();
 	
+	folderOrganization = Dialog.getRadioButton();
 	nameToFind = Dialog.getString();
 	extensionToFind = Dialog.getString();
 	lutC1 = Dialog.getChoice();
@@ -1274,6 +1277,7 @@ function maxIntensityProjection() {
 		
 		// Duplicates and renames the open image according to the folder it is in
 		oriName = getTitle();
+		oriNameNoExt = File.getNameWithoutExtension(oriName);
 		imageDirectory = getInfo("image.directory"); 
 		directoryName = File.getName(imageDirectory); 
 		run("Make Substack...", "channels=[" + dupChannel + "]");
@@ -1304,8 +1308,21 @@ function maxIntensityProjection() {
 		}
 		
 		// Saves the preprocessing step, a Max intensity projection, into each image's original directory
-		saveAs("Tiff", imageDirectory + "MAX_"+ directoryName + ".tif");
-		print("Image " + i+1 + "/" + imageFilesList.length + " processed: " + directoryName);		
+		// If the organization is one subfolder per image:
+		if (folderOrganization == "One subfolder per image") {
+			
+			saveAs("Tiff", imageDirectory + "MAX_"+ directoryName + ".tif");
+			print("Image " + i+1 + "/" + imageFilesList.length + " processed: " + directoryName);
+		}
+		
+		// Else if the organization is one folder for all images:
+		else {
+			
+			saveAs("Tiff", imageDirectory + "MAX_"+ oriNameNoExt + ".tif");
+			print("Image " + i+1 + "/" + imageFilesList.length + " processed: " + oriName);
+		}
+
+		
 		
 		run("Close All");
 		call("java.lang.System.gc");
