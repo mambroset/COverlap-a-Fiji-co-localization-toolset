@@ -702,7 +702,7 @@ function normalizeAndCrop() {
 	run("Enhance Contrast...", "saturated=0.35 normalize update process_all");
 	roiManager("select", 0);
 	run("Crop");
-	roiManager("select", 0);
+	run("Restore Selection");
 	run("8-bit");
 }
 
