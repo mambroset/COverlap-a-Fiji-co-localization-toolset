@@ -1606,6 +1606,7 @@ function GUIMacro3() {
 	detectionFile = File.open(outputDirectory + File.getName(sourceDirectory) + "_DetectionParameters.txt");
 	getDateAndTime(year, month, dayOfWeek, dayOfMonth, hour, minute, second, msec);
 	print(detectionFile, "Detection parameters used for the folder " + sourceDirectory + " :");
+	print(detectionFile, "\rImageJ version: " + getVersion());
 	print(detectionFile, "\rLow Threshold " + target1 + " " + region1 + ": " + lowThresholdT1R1);
 	print(detectionFile, "Low Threshold " + target1 + " " + region2 + ": " + lowThresholdT1R2);
 	print(detectionFile, "Minimum Size " + target1 + ": " + minSizeT1);
