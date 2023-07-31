@@ -117,6 +117,7 @@ macro "Macro 2: Testing of parameters for nuclear markers segmentation Action To
 				close("*"); // In case only one channel remains open
 			}
 		}
+		
 		// Else if we test parameters on a new image or ROI:
 		else {
 			
@@ -180,7 +181,7 @@ macro "Macro 4: Verification and correction of images Action Tool - N66C000D0aD0
 	
 	// Open and set location of Results table
 	print("\\Clear");
-	tableResults = getResultsFileName(outputDirectory, ".*Results\.xls$");
+	tableResults = getResultsFileName(outputDirectory, ".*Results\.csv$");
 	Table.open(outputDirectory + tableResults);
 	Table.setLocationAndSize(screenW*0.7, screenH*0.3, screenW*0.3, screenH*0.2, tableResults);
 	print("Working on Results file: " + tableResults);
@@ -336,6 +337,8 @@ function cleanUp() {
 	setLocation(screenW*0.55, 0);
 	
 	// Set necessary options
+	RoiManager.restoreCentered(false);
+	run("Conversions...", "scale");
 	setBackgroundColor(0, 0, 0);	
 	run("Set Measurements...", " decimal=9");
 	run("Options...", "iterations=1 count=1 black");
@@ -681,7 +684,7 @@ function getSavedParameters(file) {
 		gaussianT1z = List.getValue("gaussianT1z");
 		sbBackgroundT1 = List.getValue("sbBackgroundT1");
 		watershedT1 = List.getValue("watershedT1");	
-		watershedRadiusT1 = List.getValue("watershedRadiusT1");		
+		watershedRadiusT1 = List.getValue("watershedRadiusT1");	
 		medT2x = List.getValue("medT2x");
 		medT2y = List.getValue("medT2y");
 		medT2z = List.getValue("medT2z");
@@ -702,9 +705,7 @@ function normalizeAndCrop() {
 	run("Enhance Contrast...", "saturated=0.35 normalize update process_all");
 	roiManager("select", 0);
 	run("Crop");
-	RoiManager.restoreCentered(true);
 	roiManager("select", 0);
-	RoiManager.restoreCentered(false);
 	run("8-bit");
 }
 
@@ -1054,7 +1055,7 @@ function countColoc(imageA, imageB, recount) {
 		// Adding convenient checks here for what has been modified, comment them out if not interested
 		Table.set("Resliced?", targetRow, reSlice);
 		if (reSlice)
-			Table.set("New stack", targetRow, "" + fromSlice + "-" + toSlice);
+			Table.set("New stack", targetRow, "[" + fromSlice + "-" + toSlice + "]");
 		
 		Table.set("ROI changed?", targetRow, askSaveNewRoi);
 		if (useNewOverlap == "No") 
@@ -1397,15 +1398,19 @@ function analyzeTestROI() {
 				close("OriginalImage");
 				
 				selectWindow(channel1 + "_Original");
-				normalizeAndCrop();				
+				normalizeAndCrop();
+				roiManager("select", 0);
 				roiManager("Add"); //Becomes ROI 1
+				roiManager("select", roiManager("count")-1);
+				setSelectionLocation(0, 0);
+				roiManager("update");
 			}
 		}
 	}
 	
 	// Otherwise, directly process the open channels
 	selectWindow(channel1 + "_Original");
-	run("Duplicate...", "title=" + channel1 + " duplicate");
+	run("Duplicate...", "title=" + channel1 + " ignore duplicate");
 	filterChannel(medT1x, medT1y, medT1z, gaussianT1x, gaussianT1y, gaussianT1z, sbBackgroundT1);
 
 	if (indexOf(sampleName, region1) >=0) {
@@ -1421,6 +1426,8 @@ function analyzeTestROI() {
 	makeVisualization(channel1, target1);
 	close(sampleName + "_Seg" + target1);
 	
+	
+	// Normalize and crop channel 2 image if first time opened
 	if (ask4ROIs) {
 		
 		selectWindow(channel2 + "_Original");
@@ -1428,7 +1435,7 @@ function analyzeTestROI() {
 	}
 	
 	selectWindow(channel2 + "_Original");
-	run("Duplicate...", "title=" + channel2 + " duplicate");
+	run("Duplicate...", "title=" + channel2 + " ignore duplicate");
 	filterChannel(medT2x, medT2y, medT2z, gaussianT2x, gaussianT2y, gaussianT2z, sbBackgroundT2);
 	
 	if (indexOf(sampleName, region1) >=0) {
@@ -1465,12 +1472,13 @@ function makeVisualization(channelName, targetName) {
 	selectWindow("3D_Median");
 	run("Merge Channels...", "c4=3D_Median c5=" + sampleName + "_Seg" + targetName + "-bnd create");
 	rename(sampleName + "_Filtered_" + targetName);
+	roiManager("select", roiManager("count")-1);
 		
 	selectWindow(sampleName + "_Seg" + targetName);
 	run("Label Boundaries"); // Gives 8-bit mask
 	run("Merge Channels...", "c1=" + channelName + " c2=" + sampleName + "_Seg" + targetName + "-bnd" + " create");
 	rename(targetName + "_Visualization");
-	roiManager("Select", 1);
+	roiManager("select", roiManager("count")-1);
 }
 
 //------------------------------------------------------------------------------
@@ -1722,6 +1730,9 @@ function analyzeROIs() {
 			else {
 
 				roiManager("Add"); // Becomes ROI 1
+				roiManager("select", roiManager("count")-1);
+				setSelectionLocation(0, 0);
+				roiManager("update");
 			}
 						
 			filterChannel(medT1x, medT1y, medT1z, gaussianT1x, gaussianT1y, gaussianT1z, sbBackgroundT1);
@@ -1763,7 +1774,7 @@ function analyzeROIs() {
 		
 		selectWindow(tableResults);
 		Table.update; 
-		Table.save(outputDirectory + File.getName(sourceDirectory) + "_Results.xls");
+		Table.save(outputDirectory + File.getName(sourceDirectory) + "_Results.csv");
 		
 		close("*");
 		call("java.lang.System.gc");
@@ -1823,7 +1834,7 @@ function GUIMacro4() {
 
 //------------------------------------------------------------------------------
 function getResultsFileName(dir, lookingFor) {
-// Retrieves the name of the .xls results file that is in the results folder
+// Retrieves the name of the .csv results file that is in the results folder
 	
 	list = getFileList(dir); // Makes list of what's inside the directory
 	
@@ -1862,10 +1873,11 @@ function reprocessStack() {
 	roiManager("Select", 0);
 	roiManager("rename", "OriginalROI");
 	if (!File.exists(outputDirectory + sampleName + "_ROIAdjusted.zip")) {
-		
-		setSelectionLocation(0, 0); 
+		 
 		roiManager("add");
 		roiManager("select", roiManager("count")-1);
+		setSelectionLocation(0, 0);
+		roiManager("update");
 		roiManager("rename", "OriginalROIcrop");
 	}
 	else {
