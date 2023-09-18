@@ -1487,7 +1487,7 @@ function analyzeTestROI() {
 					", radius " + watershedRadiusT1 +
 					"\nMedian x, y, z: " + medT1x + ", " + medT1y + ", " + medT1z +
 					", Gaussian x, y, z: " + gaussianT1x + ", " + gaussianT1y + ", " + gaussianT1z +
-					"\nSubtract background radius: " + sbBackgroundT1 +
+					"\nSubtract background radius: " + sbBackgroundT1 + "\n" +
 		target2 + " : \nThr. " + region1 + " : " + lowThresholdT2R1 + 
 					", Thr. " + region2 + " : " + lowThresholdT2R2 +
 					"\nMin size: " + minSizeT2 + 
