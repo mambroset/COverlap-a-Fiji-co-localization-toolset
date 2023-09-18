@@ -9,7 +9,7 @@ This 4 steps Fiji/ImageJ toolset is intended for the 3D co-localization of two n
 4. A reviewing step, where results and segmentations/co-localization masks can be verified, and corrections applied if needed (ROI adjustment, z-stack reslicing, volume estimation correction), with appropriate documentation of any such correction.
 
 ## Installation
-1. If not already done, download and install Fiji/ImageJ from https://imagej.net/software/Fiji/downloads, following instructions
+1. If not already done, download and install Fiji/ImageJ from [https://imagej.net/software/fiji/downloads](https://imagej.net/software/fiji/downloads), following instructions
 2. The plugins ImageScience, 3D ImageJ Suite and MorpholibJ need to be installed for the toolset to work. If they are not already, you need to run Help > Update, click on Manage update sites and check the boxes for 
 	- the Image Science,
 	- the 3D ImageJ Suite,
