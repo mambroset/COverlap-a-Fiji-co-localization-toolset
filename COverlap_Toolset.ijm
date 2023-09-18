@@ -456,6 +456,22 @@ function getFilesList(dir, lookingForList) {
 }
 
 //------------------------------------------------------------------------------
+function makeBioFormatPath(imgPath) {
+// Returns a path for the Bio-Formats importer that is compatible accross operating systems
+
+	if (File.separator == "\\") {
+		
+		bfPath = replace(imgPath, "/", "\\");
+	}
+	else {
+		
+		bfPath = imgPath;
+	}
+	
+	return bfPath;
+}
+
+//------------------------------------------------------------------------------
 function getTargets() {
 // Asks the user for target names and channels, and offers to save them into the
 // "Test_Parameters.txt" file in the Results folder. If such a file already 
@@ -1272,7 +1288,10 @@ function maxIntensityProjection() {
 		setBatchMode(true);
 		
 		// Opens image number i and pauses until it is actually open
-		run("Bio-Formats Importer", "open=[" + replace(imageFilesList[i], "/","\\") + "] autoscale color_mode=Default rois_import=[ROI manager] view=Hyperstack stack_order=XYCZT");
+		
+		bioFormatsPath = makeBioFormatPath(imageFilesList[i]);
+		
+		run("Bio-Formats Importer", "open=[" + bioFormatsPath + "] autoscale color_mode=Default rois_import=[ROI manager] view=Hyperstack stack_order=XYCZT");
 		
 		while (nImages==0) {
 			
@@ -1382,7 +1401,8 @@ function analyzeTestROI() {
 			
 			if (matches(imageFilesList[i], ".*" + sampleName + ".*")) {
 				
-				run("Bio-Formats Importer", "open=[" + replace(imageFilesList[i], "/","\\") + "] autoscale color_mode=Default rois_import=[ROI manager] view=Hyperstack stack_order=XYCZT");
+				bioFormatsPath = makeBioFormatPath(imageFilesList[i]);
+				run("Bio-Formats Importer", "open=[" + bioFormatsPath + "] autoscale color_mode=Default rois_import=[ROI manager] view=Hyperstack stack_order=XYCZT");
 				oriName = getTitle();
 				rename("OriginalImage");
 				
@@ -1459,6 +1479,25 @@ function analyzeTestROI() {
 	setLocation(screenW*0.4, 0);
 		
 	call("java.lang.System.gc");
+	print("Test on " + sampleName + " complete with following parameters: \n" + 
+		target1 + " : \nThr. " + region1 + " : " + lowThresholdT1R1 + 
+					", Thr. " + region2 + " : " + lowThresholdT1R2 +
+					"\nMin size: " + minSizeT1 + 
+					", Watershed: " + watershedT1 + 
+					", radius " + watershedRadiusT1 +
+					"\nMedian x, y, z: " + medT1x + ", " + medT1y + ", " + medT1z +
+					", Gaussian x, y, z: " + gaussianT1x + ", " + gaussianT1y + ", " + gaussianT1z +
+					"\nSubtract background radius: " + sbBackgroundT1 +
+		target2 + " : \nThr. " + region1 + " : " + lowThresholdT2R1 + 
+					", Thr. " + region2 + " : " + lowThresholdT2R2 +
+					"\nMin size: " + minSizeT2 + 
+					", Watershed: " + watershedT2 + 
+					", radius " + watershedRadiusT2 +
+					"\nMedian x, y, z: " + medT2x + ", " + medT2y + ", " + medT2z +
+					", Gaussian x, y, z: " + gaussianT2x + ", " + gaussianT2y + ", " + gaussianT2z +
+					"\nSubtract background radius: " + sbBackgroundT2 +
+		"\nExclude object on edges : " + excludeEdges + "");
+	
 	beep();
 }
 
@@ -1696,8 +1735,9 @@ function analyzeROIs() {
 		}
 		
 		if(File.exists(roiFile)) { // If ROI .zip file exists, opens the corresponding image and the ROI
-
-			run("Bio-Formats Importer", "open=[" + replace(imageFilesList[i], "/","\\") + "] autoscale color_mode=Default rois_import=[ROI manager] view=Hyperstack stack_order=XYCZT");
+			
+			bioFormatsPath = makeBioFormatPath(imageFilesList[i]);
+			run("Bio-Formats Importer", "open=[" + bioFormatsPath + "] autoscale color_mode=Default rois_import=[ROI manager] view=Hyperstack stack_order=XYCZT");
 			oriName = getTitle();
 			rename("OriginalImage");
 			Stack.getDimensions(width, height, channels, slices, frames); // Need "slices"
