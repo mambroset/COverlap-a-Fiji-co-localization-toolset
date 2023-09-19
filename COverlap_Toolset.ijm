@@ -74,6 +74,9 @@ macro "Macro 1: Creation of Max Intensity Projection images Action Tool - N66C00
 	GUIMacro1();
 	maxIntensityProjection();
 	close("imageFilesList");
+	maxFilesList = getFilesList(sourceDirectory, newArray("^MAX_.*")); 
+	Array.show(maxFilesList);
+	Table.setLocationAndSize(screenW*0.7, screenH*0.3, screenW*0.3, screenH*0.2, "maxFilesList");
 	print("A MIP has been successfully created for all of the images.");
 	beep();
 }
@@ -334,7 +337,7 @@ function cleanUp() {
 	// Initialize and place ROI Manager
 	roiManager("reset");
 	selectWindow("ROI Manager");
-	setLocation(screenW*0.55, 0);
+	setLocation(screenW*0.52, 0);
 	
 	// Set necessary options
 	RoiManager.restoreCentered(false);
@@ -1481,7 +1484,7 @@ function analyzeTestROI() {
 	organizeImages();
 	run("Channels Tool...");
 	selectWindow("Channels");
-	setLocation(screenW*0.4, 0);
+	setLocation(screenW*0.40, 0);
 		
 	call("java.lang.System.gc");
 	print("Test on " + sampleName + " complete with following parameters: \n" + 
