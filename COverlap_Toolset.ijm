@@ -1,5 +1,5 @@
 //==============================================================================
-//   Coverlap Toolset: Object-based colocalization with overlap threshold
+//   Coverlap Toolset: Object-based co-localization with overlap threshold
 //==============================================================================
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1231,6 +1231,8 @@ function makeBin(segImage) {
 function GUIMacro1() { 
 // Graphical user interface: source (input) directory + settings for the preprocessing
 	
+	print("Running: Macro 1: Creation of Max Intensity Projection images");
+	print("Select the directory containing all the folders with images to project");
 	sourceDirectory = getDirectory("Select the directory containing all the folders with images to project");
 	lutChoice = newArray("Yellow", "Magenta", "Cyan", "Green", "Red", "Blue", "Grays", "None");
 	
@@ -1363,8 +1365,11 @@ function GUIMacro2() {
 // Asks the user for the input/output directories and the target informations. 
 // The image directory can be a folder containing other folders with images.
 
+	print("Running: Macro 2: Testing of parameters for nuclear markers segmentation");
 	//Get source and output directories
+	print("Please open the directory containing the images you wish to test your parameters on (same as in Macro 1).");
 	sourceDirectory = getDirectory("Please open the directory containing the images you wish to test your parameters on (same as in Macro 1).");
+	print("Select a results directory where you want to record your parameters and results");
 	outputDirectory = getDirectory("Select a results directory where you want to record your parameters and results");
 	
 	getTargets();
@@ -1634,8 +1639,11 @@ function GUIMacro3() {
 // and creates a file that records the parameters used for the analysis of this 
 // batch of images. 
 
+	print("Running: Macro 3: Segmentation and 3D colocalization of two nuclear fluorescent markers");
 	// Get source and output directories
+	print("Choose the directory containing your experiment (ideally batch_number/sample)");
 	sourceDirectory = getDirectory("Choose the directory containing your experiment (ideally batch_number/sample)");
+	print("Select your Results directory, that may already contain saved test parameters");
 	outputDirectory = getDirectory("Select your Results directory, that may already contain saved test parameters");
 	
 	getTargets();
@@ -1832,8 +1840,11 @@ function analyzeROIs() {
 function GUIMacro4() { 
 // Asks for the results directory and target parameters
 	
+	print("Running: Macro 4: Verification and correction of images");
 	// Gets results directory and shows the verification images list
+	print("Please open the images directory containing the MIPs of your batch.");
 	sourceDirectory = getDirectory("Please open the images directory containing the MIPs of your batch.");
+	print("Please open the results directory containing the results, ROIs and verification images of your batch.");
 	outputDirectory = getDirectory("Please open the results directory containing the results, ROIs and verification images of your batch.");
 	verificationFilesList = getFilesList(outputDirectory, newArray(".*VisualizationComposite\.zip$", ".*VisualizationMIP\.jpg$")); //Should always be the same if 1st macro was used
 	Array.show(verificationFilesList);
