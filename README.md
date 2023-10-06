@@ -208,3 +208,17 @@ This final step allows the reviewing of your analysis. On top of making sure you
 <p align="center">
 	<img src="img/Step4_ConvexHull.jpg" width = 75%>
 </p>
+
+## Results table description
+### Initial Macro 3 output
+
+| Group                                    | Sample                       | Target Region | Nb slices          | Roi Area_(unit2) | Total Area(unit2)    | Roi Volume_((unit/1e+9)3)                                  | T1 count             | T2 count            | Overlap % Threshold | T1 in T2 count | T2 in T1 count | Processed the               |
+|------------------------------------------|------------------------------|---------------|--------------------|------------------|----------------------|------------------------------------------------------------|----------------------|---------------------|---------------------|----------------|----------------|-----------------------------|
+| Parent folder of image / image subfolder | Sample ID, i.e. V1291ACCL1c2 | i.e. ACC, PC  | z-slices in sample | Area of the ROI  | Roi Area * Nb slices | Total Area * Size of z-step / 1e+9, "Cookie-cutter" volume | Nb Target 1 objects  | Nb Target 2 objects | Overlap % Threshold | T1 in T2 count | T2 in T1 count | Year/Month/Day at hh:mm:ss  |
+
+### Appended Macro 4 output
+
+| New Nb slices | New ROI Area | New ROI Volume (unit/1e+9)3 | Corrected Total Area     | Corrected Volume (unit/1e+9)3                | New T1 count | New T2 count | New Overlap % Threshold | New T1 in T2 count | New T2 in T1 count | Resliced?       | New stack                  | ROI changed?    | OverlapThr changed? | Discard justification                 | Appended the                | Comment               |
+|---------------|--------------|-----------------------------|--------------------------|----------------------------------------------|--------------|--------------|-------------------------|--------------------|--------------------|-----------------|----------------------------|-----------------|---------------------|---------------------------------------|-----------------------------|-----------------------|
+|               |              | New "Cookie-cutter" volume  | Sum of Convex Hull areas | Corrected Total Area * Size of z-step / 1e+9 |              |              |                         |                    |                    | 0 = No, 1 = Yes | [Top slice - bottom slice] | 0 = No, 1 = Yes | 0 = No, 1 = Yes     | User explanation for discarding image | Year/Month/Day at hh:mm:ss  | Optional user comment |
+
